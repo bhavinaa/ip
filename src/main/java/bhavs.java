@@ -23,7 +23,9 @@ public class bhavs {
 
         while (true) {
             String userCommand = getUserInput(scanner, null);
-
+            //String input = userCommand;
+            //String[] parts = input.split(",");
+            //Task for_list = make_correct_entry(parts);
 
             if ("bye".equalsIgnoreCase(userCommand)) {
                 System.out.println("Bye, " + userName + "! Hope to see you again soon!");
@@ -41,6 +43,7 @@ public class bhavs {
             } else if ("uncompleted_tasks".equalsIgnoreCase(userCommand)) {
                 displayIncompleteTasks(taskList);
             } else {
+                // you are initialising it here for all thr other commande
                 addTask(taskList, userCommand);
             }
         }
@@ -58,6 +61,7 @@ public class bhavs {
         if (prompt != null) {
             System.out.println(prompt);
         }
+        String input = scanner.nextLine();
         return scanner.nextLine();
     }
 
@@ -124,6 +128,22 @@ public class bhavs {
             return getTaskIndex(scanner, prompt, listSize);
         }
         return index;
+    }
+
+    public Task make_correct_entry(String [] parts){
+        if(parts.length == 3) {
+            return new Events(parts[0], parts[1], parts[2]);
+        }
+
+        if(parts.length == 2) {
+            return new Deadlines(parts[0], parts[1]);
+        }
+
+        if(parts.length == 1) {
+            return new ToDos(parts[0]);
+        }
+
+        return null;
     }
 
 }

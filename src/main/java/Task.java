@@ -1,6 +1,6 @@
 public class Task {
     String task_given;
-    Boolean task_completed = false;
+    boolean task_completed = false;
 
     Task(String task){
         task_given = task;
@@ -14,7 +14,7 @@ public class Task {
         }
     }
 
-    public Boolean isCompleted(){
+    public boolean isCompleted(){
         return task_completed;
     }
 
