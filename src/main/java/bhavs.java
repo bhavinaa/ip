@@ -5,89 +5,125 @@ import java.util.ArrayList;
 
 public class bhavs {
     public static void main(String[] args) {
-        // initialisation
+
+        bhavs chatBot = new bhavs();
+        chatBot.run();
+    }
+
+
+
+    public void run(){
         String logo = "bhavs";
-        List<Task> list = new ArrayList<>();
-        // introduction
-        System.out.println(" Hello from\n" + logo);
-        System.out.println("I help to keep track of what " +
-                "you said, just say \"list\" if you do " +
-                "not want to see the current list just " +
-                "say \"bye\" if you want to end it with me");
-        System.out.println("____________________________________________________________");
-        System.out.println(" What is your name?");
-        Scanner sc = new Scanner(System.in);
-        String answer = sc.nextLine();
-        System.out.println(" Hi " + answer +"!");
-        System.out.println(" You have a cool name.");
-        System.out.println(" What can I add in the list");
-        System.out.println("____________________________________________________________");
-        Scanner sc1 = new Scanner(System.in);
-        String answer1 = sc1.nextLine();
-        Task t1 = new Task(answer1);
-        list.add(t1);
+        List<Task> taskList = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        printWelcomeMessage(logo);
+        String userName = getUserInput(scanner, "What is your name?");
+        System.out.println("Hi " + userName + "! You have a cool name.");
+        System.out.println("What can I add to the list?");
 
         while (true) {
-            System.out.println("do you want to add anything else");
-            sc1 = new Scanner(System.in);
-            answer1 = sc1.nextLine();
-            Task t2 = new Task(answer1);
-            if("bye".equals(answer1)) {
-                System.out.println(" Bye. " + answer + "! Hope to see you again soon!");
+            String userCommand = getUserInput(scanner, null);
+
+
+            if ("bye".equalsIgnoreCase(userCommand)) {
+                System.out.println("Bye, " + userName + "! Hope to see you again soon!");
                 break;
             }
-            if("list".equals(answer1)) {
-                for (int i = 0; i < list.size(); i ++) {
-                    System.out.println((i+1) + ". " + list.get(i).toString());
-                }
-                continue;
+
+            if ("list".equalsIgnoreCase(userCommand)) {
+                displayTasks(taskList);
+            } else if ("mark".equalsIgnoreCase(userCommand)) {
+                markTask(taskList, scanner);
+            } else if ("unmark".equalsIgnoreCase(userCommand)) {
+                unmarkTask(taskList, scanner);
+            } else if ("all_completed_tasks".equalsIgnoreCase(userCommand)) {
+                displayCompletedTasks(taskList);
+            } else if ("uncompleted_tasks".equalsIgnoreCase(userCommand)) {
+                displayIncompleteTasks(taskList);
+            } else {
+                addTask(taskList, userCommand);
             }
-
-            if ("mark".equals(answer1)) {
-                System.out.println("which number on the list do you want to mark as done!");
-                Scanner sc3 = new Scanner(System.in);
-                int answer3 = sc3.nextInt();
-                list.get(answer3 - 1).mark_as_complete();
-                System.out.println("ok, i have marked this task as done");
-                System.out.println(list.get(answer3 -1).toString());
-                continue;
-            }
-
-            if("unmark".equals(answer1)) {
-                System.out.println("which number on the list do you want to unmark!");
-                Scanner sc3 = new Scanner(System.in);
-                int answer3 = sc3.nextInt();
-                list.get(answer3 - 1).mark_as_incomplete();
-                System.out.println("ok, i have marked this task as not done yet");
-                System.out.println(list.get(answer3 -1).toString());
-                continue;
-            }
-
-            if("all_completed_tasks".equals(answer1)) {
-                System.out.println("All completed tasks");
-                for (int i = 0; i < list.size(); i++) {
-                    if(list.get(i).is_completed()) {
-                        System.out.println(list.get(i).toString());
-                    }
-                }
-                continue;
-            }
-
-            if("uncompleted tasks".equals(answer1)) {
-                System.out.println("All incomplete tasks");
-                for (int i = 0; i < list.size(); i++) {
-                    if(list.get(i).is_completed()) {
-                        System.out.println(list.get(i).toString());
-                    }
-                }
-                continue;
-            }
-            list.add(t2);
-
-            System.out.println("added: " + answer1);
-
         }
-
         System.out.println("____________________________________________________________");
     }
+
+    public void printWelcomeMessage(String logo) {
+        System.out.println("Hello from\n" + logo);
+        System.out.println("I help keep track of what you said.");
+        System.out.println("Type 'list' to see the current list or 'bye' to exit.");
+        System.out.println("____________________________________________________________");
+    }
+
+    public String getUserInput(Scanner scanner, String prompt) {
+        if (prompt != null) {
+            System.out.println(prompt);
+        }
+        return scanner.nextLine();
+    }
+
+    public void displayTasks(List<Task> taskList) {
+        if (taskList.isEmpty()) {
+            System.out.println("Your task list is empty.");
+        } else {
+            System.out.println("Here are your tasks:");
+            for (int i = 0; i < taskList.size(); i++) {
+                System.out.println((i + 1) + ". " + taskList.get(i));
+            }
+        }
+    }
+
+    // Method to mark a task as complete
+    public void markTask(List<Task> taskList, Scanner scanner) {
+        String question =  "Which task number would you like to mark as done? there are " + taskList.size() + " items in your list";
+        int taskIndex = getTaskIndex(scanner, question , taskList.size());
+        taskList.get(taskIndex).markAsComplete();
+        System.out.println("Task marked as done: " + taskList.get(taskIndex));
+    }
+
+    // Method to unmark a task
+    public void unmarkTask(List<Task> taskList, Scanner scanner) {
+        String question =  "Which task number would you like to mark as done? there are " + taskList.size() + " items in your list";
+        int taskIndex = getTaskIndex(scanner, question , taskList.size());
+        taskList.get(taskIndex).markAsIncomplete();
+        System.out.println("Task unmarked: " + taskList.get(taskIndex));
+    }
+
+    // Method to display completed tasks
+    public void displayCompletedTasks(List<Task> taskList) {
+        System.out.println("Completed tasks:");
+        for (Task task : taskList) {
+            if (task.isCompleted()) {
+                System.out.println(task);
+            }
+        }
+    }
+
+    // Method to display incomplete tasks
+    public void displayIncompleteTasks(List<Task> taskList) {
+        System.out.println("Incomplete tasks:");
+        for (Task task : taskList) {
+            if (!task.isCompleted()) {
+                System.out.println(task);
+            }
+        }
+    }
+
+    // Method to add a task to the list
+    public void addTask(List<Task> taskList, String taskDescription) {
+        Task newTask = new Task(taskDescription);
+        taskList.add(newTask);
+        System.out.println("Added: " + taskDescription);
+    }
+
+    public int getTaskIndex(Scanner scanner, String prompt, int listSize) {
+        System.out.println(prompt);
+        int index = scanner.nextInt() - 1;
+        scanner.nextLine(); // Consume newline
+        if (index < 0 || index >= listSize) {
+            System.out.println("Invalid task number. Please try again.");
+            return getTaskIndex(scanner, prompt, listSize);
+        }
+        return index;
+    }
+
 }

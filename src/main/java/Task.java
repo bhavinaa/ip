@@ -14,7 +14,7 @@ public class Task {
         }
     }
 
-    public Boolean is_completed(){
+    public Boolean isCompleted(){
         return task_completed;
     }
 
@@ -22,11 +22,11 @@ public class Task {
         return task_given;
     }
 
-    public void mark_as_complete(){
+    public void markAsComplete(){
         task_completed = true;
     }
 
-    public void mark_as_incomplete() {
+    public void markAsIncomplete() {
         task_completed = false;
     }
 
