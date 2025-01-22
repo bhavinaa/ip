@@ -21,4 +21,16 @@ public class Task {
     public String get_task() {
         return task_given;
     }
+
+    public void mark_as_complete(){
+        task_completed = true;
+    }
+
+    public void mark_as_incomplete() {
+        task_completed = false;
+    }
+
+    public String toString() {
+        return "[" + this.get_status() + "] " + task_given;
+    }
 }

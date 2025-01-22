@@ -38,7 +38,39 @@ public class bhavs {
             }
             if("list".equals(answer1)) {
                 for (int i = 0; i < list.size(); i ++) {
-                    System.out.println(i + ". " + "[" +  list.get(i).get_status() + "] " + list.get(i).get_task());
+                    System.out.println((i+1) + ". " + list.get(i).toString());
+                }
+                continue;
+            }
+
+            if ("mark".equals(answer1)) {
+                System.out.println("which number on the list do you want to mark as done!");
+                Scanner sc3 = new Scanner(System.in);
+                int answer3 = sc3.nextInt();
+                list.get(answer3 - 1).mark_as_complete();
+                continue;
+            }
+
+            if("unmark".equals(answer1)) {
+                
+            }
+
+            if("all_completed_tasks".equals(answer1)) {
+                System.out.println("All completed tasks");
+                for (int i = 0; i < list.size(); i++) {
+                    if(list.get(i).is_completed()) {
+                        System.out.println(list.get(i).toString());
+                    }
+                }
+                continue;
+            }
+
+            if("uncompleted tasks".equals(answer1)) {
+                System.out.println("All incomplete tasks");
+                for (int i = 0; i < list.size(); i++) {
+                    if(list.get(i).is_completed()) {
+                        System.out.println(list.get(i).toString());
+                    }
                 }
                 continue;
             }
