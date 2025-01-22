@@ -48,11 +48,19 @@ public class bhavs {
                 Scanner sc3 = new Scanner(System.in);
                 int answer3 = sc3.nextInt();
                 list.get(answer3 - 1).mark_as_complete();
+                System.out.println("ok, i have marked this task as done");
+                System.out.println(list.get(answer3 -1).toString());
                 continue;
             }
 
             if("unmark".equals(answer1)) {
-                
+                System.out.println("which number on the list do you want to unmark!");
+                Scanner sc3 = new Scanner(System.in);
+                int answer3 = sc3.nextInt();
+                list.get(answer3 - 1).mark_as_incomplete();
+                System.out.println("ok, i have marked this task as not done yet");
+                System.out.println(list.get(answer3 -1).toString());
+                continue;
             }
 
             if("all_completed_tasks".equals(answer1)) {
