@@ -1,20 +1,15 @@
 public class Events extends Task {
+    private String from;
+    private String to;
 
-    String startTime;
-    String endTime;
-    String item;
-
-    Events(String item, String start_time, String end_time) {
-        super(item);
-        this.item = item;
-        this.startTime = start_time;
-        this.endTime = end_time;
+    public Events(String description, String from, String to) {
+        super(description);
+        this.from = from;
+        this.to = to;
     }
 
     @Override
     public String toString() {
-        boolean completed_status = super.isCompleted();
-        String status = completed_status? "[x]": "[]";
-        return "[E]" + super.toString()+  "(from: " + startTime + "to: " + endTime + ")";
+        return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
     }
 }

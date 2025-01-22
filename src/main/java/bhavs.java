@@ -1,18 +1,14 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Scanner;
 
-public class bhavs {
+class bhavs {
     public static void main(String[] args) {
-
         bhavs chatBot = new bhavs();
         chatBot.run();
     }
 
-
-
-    public void run(){
+    public void run() {
         String logo = "bhavs";
         List<Task> taskList = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
@@ -23,9 +19,6 @@ public class bhavs {
 
         while (true) {
             String userCommand = getUserInput(scanner, null);
-            //String input = userCommand;
-            //String[] parts = input.split(",");
-            //Task for_list = make_correct_entry(parts);
 
             if ("bye".equalsIgnoreCase(userCommand)) {
                 System.out.println("Bye, " + userName + "! Hope to see you again soon!");
@@ -43,8 +36,16 @@ public class bhavs {
             } else if ("uncompleted_tasks".equalsIgnoreCase(userCommand)) {
                 displayIncompleteTasks(taskList);
             } else {
-                // you are initialising it here for all thr other commande
-                addTask(taskList, userCommand);
+                String[] parts = userCommand.split(",");
+                Task newTask = make_correct_entry(parts);
+                if (newTask != null) {
+                    taskList.add(newTask);
+                    System.out.println("Got it. I've added this task:");
+                    System.out.println("  " + newTask);
+                    System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+                } else {
+                    System.out.println("Invalid task format. Please try again.");
+                }
             }
         }
         System.out.println("____________________________________________________________");
@@ -61,8 +62,7 @@ public class bhavs {
         if (prompt != null) {
             System.out.println(prompt);
         }
-        String input = scanner.nextLine();
-        return scanner.nextLine();
+        return scanner.nextLine(); // Correctly returns user input
     }
 
     public void displayTasks(List<Task> taskList) {
@@ -74,6 +74,21 @@ public class bhavs {
                 System.out.println((i + 1) + ". " + taskList.get(i));
             }
         }
+    }
+
+    // Other methods for mark, unmark, etc., remain unchanged
+
+    public Task make_correct_entry(String[] parts) {
+        if (parts.length == 3) {
+            return new Events(parts[0], parts[1], parts[2]);
+        }
+        if (parts.length == 2) {
+            return new Deadlines(parts[0], parts[1]);
+        }
+        if (parts.length == 1) {
+            return new ToDos(parts[0]);
+        }
+        return null;
     }
 
     // Method to mark a task as complete
@@ -111,14 +126,6 @@ public class bhavs {
             }
         }
     }
-
-    // Method to add a task to the list
-    public void addTask(List<Task> taskList, String taskDescription) {
-        Task newTask = new Task(taskDescription);
-        taskList.add(newTask);
-        System.out.println("Added: " + taskDescription);
-    }
-
     public int getTaskIndex(Scanner scanner, String prompt, int listSize) {
         System.out.println(prompt);
         int index = scanner.nextInt() - 1;
@@ -130,20 +137,12 @@ public class bhavs {
         return index;
     }
 
-    public Task make_correct_entry(String [] parts){
-        if(parts.length == 3) {
-            return new Events(parts[0], parts[1], parts[2]);
-        }
-
-        if(parts.length == 2) {
-            return new Deadlines(parts[0], parts[1]);
-        }
-
-        if(parts.length == 1) {
-            return new ToDos(parts[0]);
-        }
-
-        return null;
-    }
 
 }
+
+
+
+
+
+
+
