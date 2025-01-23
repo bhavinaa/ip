@@ -2,6 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+enum TaskType {
+    TODO,
+    DEADLINE,
+    EVENT
+}
+
 class bhavs {
     public static void main(String[] args) {
         bhavs chatBot = new bhavs();
@@ -114,14 +120,23 @@ class bhavs {
         }
         return null;
     }
+    
 
     // Method to mark a task as complete
     public void markTask(List<Task> taskList, Scanner scanner) {
-        String question =  "Which task number would you like to mark as done? there are " + taskList.size() + " items in your list";
-        int taskIndex = getTaskIndex(scanner, question , taskList.size());
-        taskList.get(taskIndex).markAsComplete();
-        System.out.println("Task marked as done: " + taskList.get(taskIndex));
+        if (taskList.isEmpty()) {
+            System.out.println("Your task list is empty. There is nothing to mark.");
+            return;
+        }
+
+        String question = "Which task number would you like to mark as done? There are " + taskList.size() + " items in your list.";
+        int taskIndex = getTaskIndex(scanner, question, taskList.size()); // Already adjusted for zero-based index
+        Task selectedTask = taskList.get(taskIndex);
+        selectedTask.markAsComplete();
+
+        System.out.println("Task marked as done: " + selectedTask);
     }
+
 
     // Method to unmark a task
     public void unmarkTask(List<Task> taskList, Scanner scanner) {
