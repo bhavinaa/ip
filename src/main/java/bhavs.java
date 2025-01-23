@@ -21,7 +21,7 @@ class bhavs {
         while (true) {
 
                 String userCommand = getUserInput(scanner, null);
-                
+
                 if ("bye".equalsIgnoreCase(userCommand)) {
                     System.out.println("Bye, " + userName + "! Hope to see you again soon!");
                     break;
@@ -45,7 +45,7 @@ class bhavs {
             }
             System.out.println("____________________________________________________________");
         }
-    }
+
 
     public void processs_request(String userCommand, List<Task> taskList) {
         try {
