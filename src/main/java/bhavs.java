@@ -14,43 +14,60 @@ class bhavs {
         Scanner scanner = new Scanner(System.in);
         printWelcomeMessage(logo);
         String userName = getUserInput(scanner, "What is your name?");
+
         System.out.println("Hi " + userName + "! You have a cool name.");
         System.out.println("What can I add to the list?");
 
         while (true) {
-            String userCommand = getUserInput(scanner, null);
 
-            if ("bye".equalsIgnoreCase(userCommand)) {
-                System.out.println("Bye, " + userName + "! Hope to see you again soon!");
-                break;
-            }
+                String userCommand = getUserInput(scanner, null);
+                
+                if ("bye".equalsIgnoreCase(userCommand)) {
+                    System.out.println("Bye, " + userName + "! Hope to see you again soon!");
+                    break;
+                }
 
-            if ("list".equalsIgnoreCase(userCommand)) {
-                displayTasks(taskList);
-            } else if ("mark".equalsIgnoreCase(userCommand)) {
-                markTask(taskList, scanner);
-            } else if ("unmark".equalsIgnoreCase(userCommand)) {
-                unmarkTask(taskList, scanner);
-            } else if ("all_completed_tasks".equalsIgnoreCase(userCommand)) {
-                displayCompletedTasks(taskList);
-            } else if ("uncompleted_tasks".equalsIgnoreCase(userCommand)) {
-                displayIncompleteTasks(taskList);
-            } else {
-                String[] parts = userCommand.split(",");
-                Task newTask = make_correct_entry(parts);
-                if (newTask != null) {
-                    taskList.add(newTask);
-                    System.out.println("Got it. I've added this task:");
-                    System.out.println("  " + newTask);
-                    System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+                if ("list".equalsIgnoreCase(userCommand)) {
+                    displayTasks(taskList);
+                } else if ("mark".equalsIgnoreCase(userCommand)) {
+                    markTask(taskList, scanner);
+                } else if ("unmark".equalsIgnoreCase(userCommand)) {
+                    unmarkTask(taskList, scanner);
+                } else if ("all_completed_tasks".equalsIgnoreCase(userCommand)) {
+                    displayCompletedTasks(taskList);
+                } else if ("uncompleted_tasks".equalsIgnoreCase(userCommand)) {
+                    displayIncompleteTasks(taskList);
+                } else if ("delete".equalsIgnoreCase(userCommand)) {
+                    delete_task(taskList, scanner);
                 } else {
-                    System.out.println("Invalid task format. Please try again.");
+                    processs_request(userCommand, taskList);
                 }
             }
+            System.out.println("____________________________________________________________");
         }
-        System.out.println("____________________________________________________________");
     }
 
+    public void processs_request(String userCommand, List<Task> taskList) {
+        try {
+            String[] parts = userCommand.split(",");
+            if (parts.length > 3 || parts.length < 0) {
+                // throw and exception where you cannot have the wrong length of it
+                throw new InvalidFormatException();
+            }
+            Task newTask = make_correct_entry(parts);
+            if (newTask != null) {
+                taskList.add(newTask);
+                System.out.println("Got it. I've added this task:");
+                System.out.println("  " + newTask);
+                System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+            } else {
+                System.out.println("Invalid task format. Please try again.");
+            }
+        } catch (Exception e) {
+            System.out.println("You had input the task items in the wrong format");
+            System.out.println("try again and give your input");
+        }
+    }
     public void printWelcomeMessage(String logo) {
         System.out.println("Hello from\n" + logo);
         System.out.println("I help keep track of what you said.");
@@ -65,6 +82,14 @@ class bhavs {
         return scanner.nextLine(); // Correctly returns user input
     }
 
+    // method to delete the task later on
+    public void delete_task(List<Task>taskList, Scanner scanner) {
+        String question =  "Which task number would you like to delete? there are " + taskList.size() + " items in your list";
+        int taskIndex = getTaskIndex(scanner, question , taskList.size());
+        Task removedTask = taskList.remove(taskIndex);
+        System.out.println("Task removed: " + removedTask.toString());
+
+    }
     public void displayTasks(List<Task> taskList) {
         if (taskList.isEmpty()) {
             System.out.println("Your task list is empty.");
@@ -76,7 +101,6 @@ class bhavs {
         }
     }
 
-    // Other methods for mark, unmark, etc., remain unchanged
 
     public Task make_correct_entry(String[] parts) {
         if (parts.length == 3) {
@@ -136,8 +160,6 @@ class bhavs {
         }
         return index;
     }
-
-
 }
 
 
