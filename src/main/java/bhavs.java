@@ -17,6 +17,7 @@ class bhavs {
     public void run() {
         String logo = "bhavs";
         List<Task> taskList = new ArrayList<>();
+
         Scanner scanner = new Scanner(System.in);
         printWelcomeMessage(logo);
         String userName = getUserInput(scanner, "What is your name?");
@@ -51,6 +52,7 @@ class bhavs {
             }
             System.out.println("____________________________________________________________");
         }
+
 
 
     public void processs_request(String userCommand, List<Task> taskList) {
@@ -120,7 +122,7 @@ class bhavs {
         }
         return null;
     }
-    
+
 
     // Method to mark a task as complete
     public void markTask(List<Task> taskList, Scanner scanner) {
