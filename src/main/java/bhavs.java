@@ -81,7 +81,7 @@ class bhavs {
         System.out.println("I help keep track of what you said.");
         System.out.println("Type 'list' to see the current list or 'bye' to exit.");
         System.out.println("____________________________________________________________");
-    }
+    } 
 
     public String getUserInput(Scanner scanner, String prompt) {
         if (prompt != null) {
