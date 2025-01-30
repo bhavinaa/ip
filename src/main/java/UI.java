@@ -13,12 +13,15 @@ code functions is
 public class UI {
 
     private String userName;
+
+    private Storage storage;
     private Scanner scanner = new Scanner(System.in);
     private String filePath;
-    private List<Task> taskList; // List of tasks
-    public UI(String filePath, List<Task> taskList) {
+    private TaskList taskList; // List of tasks
+    public UI(String filePath, TaskList taskList) {
         this.taskList = taskList;
         this.filePath = filePath;
+        this.storage = new Storage(filePath, taskList);
     }
 
     public void printAllComands() {
@@ -76,16 +79,16 @@ public class UI {
                     displayTasks();
                     break;
                 case "mark":
-                    markTask(scanner);
+                    this.taskList.markTask(scanner);
                     break;
                 case "unmark":
-                    unmarkTask(scanner);
+                    this.taskList.unmarkTask(scanner);
                     break;
                 case "delete":
-                    deleteTask(scanner);
+                    this.taskList.deleteTask(scanner);
                     break;
                 case "save":
-                    saveTasksToFile();
+                    this.storage.saveTasksToFile();
                     System.out.println("Tasks saved successfully.");
                     break;
                 case "quit":
@@ -105,7 +108,7 @@ public class UI {
 
         if (newTask != null) {
             taskList.add(newTask);
-            saveTasksToFile();
+            storage.saveTasksToFile();
             System.out.println("Got it. I've added this task:");
             System.out.println("  " + newTask);
             System.out.println("Now you have " + taskList.size() + " tasks in the list.");
@@ -128,113 +131,10 @@ public class UI {
         }
     }
 
-    public void deleteTask(Scanner scanner) {
-        if (taskList.isEmpty()) {
-            System.out.println("No tasks to delete.");
-            return;
-        }
-
-        int taskIndex = getTaskIndex(scanner, "Which task number to delete?", taskList.size());
-        Task removedTask = taskList.remove(taskIndex);
-        saveTasksToFile();
-        System.out.println("Task removed: " + removedTask);
-    }
-
-    public void markTask(Scanner scanner) {
-        if (taskList.isEmpty()) {
-            System.out.println("Your task list is empty.");
-            return;
-        }
-
-        int taskIndex = getTaskIndex(scanner, "Which task number to mark as done?", taskList.size());
-        taskList.get(taskIndex).markAsComplete();
-        saveTasksToFile();
-    }
-
-    public void unmarkTask(Scanner scanner) {
-        if (taskList.isEmpty()) {
-            System.out.println("No tasks to unmark.");
-            return;
-        }
-
-        int taskIndex = getTaskIndex(scanner, "Which task number to unmark?", taskList.size());
-        taskList.get(taskIndex).markAsIncomplete();
-        saveTasksToFile();
-    }
-
-    public int getTaskIndex(Scanner scanner, String prompt, int listSize) {
-        System.out.println(prompt);
-        int index = scanner.nextInt() - 1;
-        scanner.nextLine(); // Consume newline
-        if (index < 0 || index >= listSize) {
-            System.out.println("Invalid task number. Please try again.");
-            return getTaskIndex(scanner, prompt, listSize);
-        }
-        return index;
-    }
 
 
-    private void saveTasksToFile() {
-        try {
-            File file = new File(filePath);
-            file.getParentFile().mkdirs();
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
-
-            for (Task task : taskList) {
-                bw.write(task.toFileFormat());
-                bw.newLine();
-            }
-
-            bw.close();
-        } catch (IOException e) {
-            System.out.println("Error saving tasks: " + e.getMessage());
-        }
-    }
 
 
-    public void loadTasksFromFile() {
-        File file = new File(filePath);
-        if (!file.exists()) {
-            System.out.println("No previous tasks found. Starting fresh.");
-            return;
-        }
-
-        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                Task task = parseTask(line);
-                if (task != null) {
-                    taskList.add(task);
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error loading tasks: " + e.getMessage());
-        }
-    }
-
-
-    private Task parseTask(String line) {
-        String[] parts = line.split(" \\| ");
-        if (parts.length < 3) {
-            System.out.println("Skipping corrupted task entry: " + line);
-            return null;
-        }
-
-        String type = parts[0];
-        boolean isDone = parts[1].equals("1");
-        String description = parts[2];
-
-        switch (type) {
-            case "T":
-                return new ToDos(description, isDone);
-            case "D":
-                return new Deadlines(description, isDone, parts[3]);
-            case "E":
-                return new Events(description, isDone, parts[3], parts[4]);
-            default:
-                return null;
-        }
-    }
 
     public Task make_correct_entry(String userCommand) {
         String[] parts = userCommand.split(",\\s*"); // Split by comma, allowing spaces
@@ -249,6 +149,10 @@ public class UI {
             System.out.println("Invalid input format! Use 'description, date' for deadlines or 'description, start, end' for events.");
             return null;
         }
+    }
+
+    public void loadTasks() {
+        this.storage.loadTasksFromFile();
     }
 
 }
