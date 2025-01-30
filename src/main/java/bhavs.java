@@ -1,104 +1,107 @@
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-enum TaskType {
-    TODO,
-    DEADLINE,
-    EVENT
-}
-
 class bhavs {
+    private static final String FILE_PATH = "./data/duke.txt"; // File path for saving tasks
+    private List<Task> taskList; // List of tasks
+
     public static void main(String[] args) {
         bhavs chatBot = new bhavs();
         chatBot.run();
     }
 
+    public bhavs() {
+        this.taskList = new ArrayList<>();
+        loadTasksFromFile();
+    }
+
     public void run() {
-        String logo = "bhavs";
-        List<Task> taskList = new ArrayList<>();
-
         Scanner scanner = new Scanner(System.in);
-        printWelcomeMessage(logo);
+        printWelcomeMessage();
         String userName = getUserInput(scanner, "What is your name?");
-
         System.out.println("Hi " + userName + "! You have a cool name.");
         System.out.println("What can I add to the list?");
 
         while (true) {
+            String userCommand = getUserInput(scanner, null);
 
-                String userCommand = getUserInput(scanner, null);
+            if ("bye".equalsIgnoreCase(userCommand)) {
+                System.out.println("Bye, " + userName + "! Hope to see you again soon!");
+                break;
+            }
 
-                if ("bye".equalsIgnoreCase(userCommand)) {
-                    System.out.println("Bye, " + userName + "! Hope to see you again soon!");
+            switch (userCommand.toLowerCase()) {
+                case "list":
+                    displayTasks();
                     break;
-                }
-
-                if ("list".equalsIgnoreCase(userCommand)) {
-                    displayTasks(taskList);
-                } else if ("mark".equalsIgnoreCase(userCommand)) {
-                    markTask(taskList, scanner);
-                } else if ("unmark".equalsIgnoreCase(userCommand)) {
-                    unmarkTask(taskList, scanner);
-                } else if ("all_completed_tasks".equalsIgnoreCase(userCommand)) {
-                    displayCompletedTasks(taskList);
-                } else if ("uncompleted_tasks".equalsIgnoreCase(userCommand)) {
-                    displayIncompleteTasks(taskList);
-                } else if ("delete".equalsIgnoreCase(userCommand)) {
-                    delete_task(taskList, scanner);
-                } else {
-                    processs_request(userCommand, taskList);
-                }
+                case "mark":
+                    markTask(scanner);
+                    break;
+                case "unmark":
+                    unmarkTask(scanner);
+                    break;
+                case "delete":
+                    deleteTask(scanner);
+                    break;
+                case "save":
+                    saveTasksToFile();
+                    System.out.println("Tasks saved successfully.");
+                    break;
+                case "quit":
+                    System.out.println("Ending the program.");
+                    return;
+                default:
+                    processRequest(userCommand);
             }
-            System.out.println("____________________________________________________________");
-        }
-
-
-
-    public void processs_request(String userCommand, List<Task> taskList) {
-        try {
-            String[] parts = userCommand.split(",");
-            if (parts.length > 3 || parts.length < 0) {
-                // throw and exception where you cannot have the wrong length of it
-                throw new InvalidFormatException();
-            }
-            Task newTask = make_correct_entry(parts);
-            if (newTask != null) {
-                taskList.add(newTask);
-                System.out.println("Got it. I've added this task:");
-                System.out.println("  " + newTask);
-                System.out.println("Now you have " + taskList.size() + " tasks in the list.");
-            } else {
-                System.out.println("Invalid task format. Please try again.");
-            }
-        } catch (Exception e) {
-            System.out.println("You had input the task items in the wrong format");
-            System.out.println("try again and give your input");
         }
     }
-    public void printWelcomeMessage(String logo) {
-        System.out.println("Hello from\n" + logo);
-        System.out.println("I help keep track of what you said.");
-        System.out.println("Type 'list' to see the current list or 'bye' to exit.");
+
+    //  Creates ToDos, Deadlines, or Events based on input format
+    public Task make_correct_entry(String userCommand) {
+        String[] parts = userCommand.split(",\\s*"); // Split by comma, allowing spaces
+
+        if (parts.length == 3) {
+            return new Events(parts[0].trim(), parts[1].trim(), parts[2].trim());
+        } else if (parts.length == 2) {
+            return new Deadlines(parts[0].trim(), parts[1].trim());
+        } else if (parts.length == 1) {
+            return new ToDos(parts[0].trim());
+        } else {
+            System.out.println("Invalid input format! Use 'description, date' for deadlines or 'description, start, end' for events.");
+            return null;
+        }
+    }
+
+    public void processRequest(String userCommand) {
+        Task newTask = make_correct_entry(userCommand);
+
+        if (newTask != null) {
+            taskList.add(newTask);
+            saveTasksToFile();
+            System.out.println("Got it. I've added this task:");
+            System.out.println("  " + newTask);
+            System.out.println("Now you have " + taskList.size() + " tasks in the list.");
+        } else {
+            System.out.println("Invalid task format. Please try again.");
+        }
+    }
+
+    public void printWelcomeMessage() {
+        System.out.println("Hello! I help keep track of your tasks.");
+        System.out.println("Type 'list' to see tasks, 'bye' to exit.");
         System.out.println("____________________________________________________________");
-    } 
+    }
 
     public String getUserInput(Scanner scanner, String prompt) {
         if (prompt != null) {
             System.out.println(prompt);
         }
-        return scanner.nextLine(); // Correctly returns user input
+        return scanner.nextLine();
     }
 
-    // method to delete the task later on
-    public void delete_task(List<Task>taskList, Scanner scanner) {
-        String question =  "Which task number would you like to delete? there are " + taskList.size() + " items in your list";
-        int taskIndex = getTaskIndex(scanner, question , taskList.size());
-        Task removedTask = taskList.remove(taskIndex);
-        System.out.println("Task removed: " + removedTask.toString());
-
-    }
-    public void displayTasks(List<Task> taskList) {
+    public void displayTasks() {
         if (taskList.isEmpty()) {
             System.out.println("Your task list is empty.");
         } else {
@@ -109,64 +112,40 @@ class bhavs {
         }
     }
 
-
-    public Task make_correct_entry(String[] parts) {
-        if (parts.length == 3) {
-            return new Events(parts[0], parts[1], parts[2]);
-        }
-        if (parts.length == 2) {
-            return new Deadlines(parts[0], parts[1]);
-        }
-        if (parts.length == 1) {
-            return new ToDos(parts[0]);
-        }
-        return null;
-    }
-
-
-    // Method to mark a task as complete
-    public void markTask(List<Task> taskList, Scanner scanner) {
+    public void deleteTask(Scanner scanner) {
         if (taskList.isEmpty()) {
-            System.out.println("Your task list is empty. There is nothing to mark.");
+            System.out.println("No tasks to delete.");
             return;
         }
 
-        String question = "Which task number would you like to mark as done? There are " + taskList.size() + " items in your list.";
-        int taskIndex = getTaskIndex(scanner, question, taskList.size()); // Already adjusted for zero-based index
-        Task selectedTask = taskList.get(taskIndex);
-        selectedTask.markAsComplete();
-
-        System.out.println("Task marked as done: " + selectedTask);
+        int taskIndex = getTaskIndex(scanner, "Which task number to delete?", taskList.size());
+        Task removedTask = taskList.remove(taskIndex);
+        saveTasksToFile();
+        System.out.println("Task removed: " + removedTask);
     }
 
+    public void markTask(Scanner scanner) {
+        if (taskList.isEmpty()) {
+            System.out.println("Your task list is empty.");
+            return;
+        }
 
-    // Method to unmark a task
-    public void unmarkTask(List<Task> taskList, Scanner scanner) {
-        String question =  "Which task number would you like to mark as done? there are " + taskList.size() + " items in your list";
-        int taskIndex = getTaskIndex(scanner, question , taskList.size());
+        int taskIndex = getTaskIndex(scanner, "Which task number to mark as done?", taskList.size());
+        taskList.get(taskIndex).markAsComplete();
+        saveTasksToFile();
+    }
+
+    public void unmarkTask(Scanner scanner) {
+        if (taskList.isEmpty()) {
+            System.out.println("No tasks to unmark.");
+            return;
+        }
+
+        int taskIndex = getTaskIndex(scanner, "Which task number to unmark?", taskList.size());
         taskList.get(taskIndex).markAsIncomplete();
-        System.out.println("Task unmarked: " + taskList.get(taskIndex));
+        saveTasksToFile();
     }
 
-    // Method to display completed tasks
-    public void displayCompletedTasks(List<Task> taskList) {
-        System.out.println("Completed tasks:");
-        for (Task task : taskList) {
-            if (task.isCompleted()) {
-                System.out.println(task);
-            }
-        }
-    }
-
-    // Method to display incomplete tasks
-    public void displayIncompleteTasks(List<Task> taskList) {
-        System.out.println("Incomplete tasks:");
-        for (Task task : taskList) {
-            if (!task.isCompleted()) {
-                System.out.println(task);
-            }
-        }
-    }
     public int getTaskIndex(Scanner scanner, String prompt, int listSize) {
         System.out.println(prompt);
         int index = scanner.nextInt() - 1;
@@ -177,11 +156,67 @@ class bhavs {
         }
         return index;
     }
+
+
+    private void saveTasksToFile() {
+        try {
+            File file = new File(FILE_PATH);
+            file.getParentFile().mkdirs();
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+
+            for (Task task : taskList) {
+                bw.write(task.toFileFormat());
+                bw.newLine();
+            }
+
+            bw.close();
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
+
+
+    private void loadTasksFromFile() {
+        File file = new File(FILE_PATH);
+        if (!file.exists()) {
+            System.out.println("No previous tasks found. Starting fresh.");
+            return;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                Task task = parseTask(line);
+                if (task != null) {
+                    taskList.add(task);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading tasks: " + e.getMessage());
+        }
+    }
+
+
+    private Task parseTask(String line) {
+        String[] parts = line.split(" \\| ");
+        if (parts.length < 3) {
+            System.out.println("Skipping corrupted task entry: " + line);
+            return null;
+        }
+
+        String type = parts[0];
+        boolean isDone = parts[1].equals("1");
+        String description = parts[2];
+
+        switch (type) {
+            case "T":
+                return new ToDos(description, isDone);
+            case "D":
+                return new Deadlines(description, isDone, parts[3]);
+            case "E":
+                return new Events(description, isDone, parts[3], parts[4]);
+            default:
+                return null;
+        }
+    }
 }
-
-
-
-
-
-
-

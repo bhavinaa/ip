@@ -7,6 +7,11 @@ class Task {
         this.isDone = false;
     }
 
+    public Task(String description, boolean isDone) { // Constructor for loading tasks
+        this.description = description;
+        this.isDone = isDone;
+    }
+
     public void markAsComplete() {
         this.isDone = true;
     }
@@ -17,6 +22,11 @@ class Task {
 
     public boolean isCompleted() {
         return isDone;
+    }
+
+    // ✅ Convert task to file format (needed for saving)
+    public String toFileFormat() {
+        return (isDone ? "1" : "0") + " | " + description;
     }
 
     @Override
