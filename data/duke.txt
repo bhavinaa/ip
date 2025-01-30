@@ -1,7 +1,4 @@
-T | 0 | kmce
 T | 0 | lmc
-T | 0 | kdmcd,idncen
-T | 0 | ckmece\dcnedcie
 T | 0 | fncekcme,wifnweifn,ifnwe
 T | 0 | Added: [T][ ] cmedcime\dicme
 T | 0 | kdn
@@ -12,3 +9,12 @@ D | 0 | uefe | eifneiv
 D | 0 | geinge | ienfiw
 T | 0 | clear
 T | 0 | coc
+T | 0 | dkmc
+E | 0 | dmcd | dicmd | icndc
+E | 0 | kdnc | kdncdk | dicnie
+T | 0 | kcd
+T | 0 | kdnc
+T | 0 | sat
+T | 1 | kcdm
+E | 1 | kmce | incekc | neicnev
+T | 0 | mark 17
