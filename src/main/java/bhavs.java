@@ -52,11 +52,35 @@ class bhavs {
                 case "quit":
                     System.out.println("Ending the program.");
                     return;
+                case "commands":
+                    printAllComands();
+                    break;
                 default:
                     processRequest(userCommand);
             }
         }
     }
+
+    public void printAllComands() {
+        System.out.println("Here are the available commands:");
+        System.out.println("-----------------------------------");
+        System.out.println("1. list          - Display all tasks");
+        System.out.println("2. mark          - Mark a task as completed");
+        System.out.println("3. unmark        - Unmark a completed task");
+        System.out.println("4. delete        - Delete a task");
+        System.out.println("5. save          - Manually save tasks to file");
+        System.out.println("6. quit          - Exit the program");
+        System.out.println("7. commands      - Show this list of commands");
+        System.out.println("8. [Task input]  - Add a new ToDo, Deadline, or Event");
+
+        System.out.println("-----------------------------------");
+        System.out.println("\nTask Input Formats:");
+        System.out.println("ToDo:        read book");
+        System.out.println("Deadline:    return book, June 6th");
+        System.out.println("Event:       project meeting, Aug 6th, 2-4pm");
+        System.out.println("you have to separate the task commands by the comma to differentiate it");
+    }
+
 
     //  Creates ToDos, Deadlines, or Events based on input format
     public Task make_correct_entry(String userCommand) {

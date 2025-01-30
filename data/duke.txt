@@ -17,3 +17,4 @@ T | 0 | clear
 T | 0 | coc
 T | 0 | lear
 T | 0 | lsit
+D | 0 | dicndj | kmcdkc
