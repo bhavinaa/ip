@@ -15,6 +15,6 @@ public class EventsTest {
     public void testConstructor_FileLoadMode() {
         Events event = new Events("Hackathon", true, "2024-05-10 08:00", "2024-05-10 18:00");
         assertEquals("Hackathon", event.getDescription());
-        assertTrue(event.isCompleted()); 
+        assertTrue(event.isCompleted());
     }
 }
