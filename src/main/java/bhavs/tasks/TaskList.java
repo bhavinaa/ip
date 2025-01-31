@@ -5,11 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
+/**
+ * Manages a list of tasks, including adding, deleting, marking, and unmarking tasks.
+ * This class interacts with the {@code Storage} class to save task changes.
+ */
 public class TaskList {
 
     private List<Task> taskList = new ArrayList<>();
     public Storage storedIn;
 
+    /**
+     * Deletes a task from the list based on user input.
+     * If the list is empty, it informs the user.
+     *
+     * @param scanner Scanner object used to get user input.
+     */
     public void deleteTask(Scanner scanner) {
         if (taskList.isEmpty()) {
             System.out.println("No tasks to delete.");
@@ -22,6 +33,14 @@ public class TaskList {
         System.out.println("Task removed: " + removedTask);
     }
 
+    /**
+     * Marks a task as completed based on user input.
+     * If the list is empty, it informs the user.
+     *
+     * @param scanner Scanner object used to get user input.
+     */
+
+
     public void markTask(Scanner scanner) {
         if (taskList.isEmpty()) {
             System.out.println("Your task list is empty.");
@@ -33,6 +52,13 @@ public class TaskList {
         storedIn.saveTasksToFile();
     }
 
+    /**
+     * Marks a task as incomplete based on user input.
+     * If the list is empty, it informs the user.
+     *
+     * @param scanner Scanner object used to get user input.
+     */
+
     public void unmarkTask(Scanner scanner) {
         if (taskList.isEmpty()) {
             System.out.println("No tasks to unmark.");
@@ -43,6 +69,16 @@ public class TaskList {
         taskList.get(taskIndex).markAsIncomplete();
         storedIn.saveTasksToFile();
     }
+
+    /**
+     * Retrieves a valid task index from the user.
+     * If an invalid index is entered, prompts the user to try again.
+     *
+     * @param scanner Scanner object used to get user input.
+     * @param prompt The prompt message displayed to the user.
+     * @param listSize The number of tasks in the list.
+     * @return The valid task index.
+     */
 
     public int getTaskIndex(Scanner scanner, String prompt, int listSize) {
         System.out.println(prompt);

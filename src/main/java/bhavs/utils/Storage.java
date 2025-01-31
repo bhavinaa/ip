@@ -5,19 +5,35 @@ import bhavs.tasks.TaskList;
 
 import java.io.*;
 
-
+/**
+ * Handles loading and saving of tasks to a file.
+ * Ensures that tasks persist between program runs.
+ */
 public class Storage {
 
     private String filePath;
     public TaskList taskList;
 
     private Parser parser = new Parser();
+
+    /**
+     * Constructs a {@code Storage} object that manages the saving and loading of tasks.
+     *
+     * @param filePath The path to the file where tasks are stored.
+     * @param taskList The task list that holds tasks in memory.
+     */
     public Storage(String filePath, TaskList taskList) {
         this.filePath = filePath;
         this.taskList = taskList;
         this.taskList.storedIn = this;
 
     }
+
+    /**
+     * Saves the current list of tasks to the specified file.
+     * If the file or its parent directories do not exist, they will be created.
+     * Prints an error message if saving fails.
+     */
 
     public void saveTasksToFile() {
         try {
@@ -35,6 +51,12 @@ public class Storage {
             System.out.println("Error saving tasks: " + e.getMessage());
         }
     }
+
+    /**
+     * Loads tasks from the specified file into the task list.
+     * If the file does not exist, a new list is started.
+     * Prints an error message if loading fails.
+     */
     public void loadTasksFromFile() {
         File file = new File(filePath);
         if (!file.exists()) {
@@ -54,6 +76,4 @@ public class Storage {
             System.out.println("Error loading tasks: " + e.getMessage());
         }
     }
-
-
 }

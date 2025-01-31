@@ -5,7 +5,7 @@ plugins {
 }
 
 repositories {
-    mavenCentral()
+    mavenCentral()     
 }
 
 dependencies {
@@ -34,6 +34,7 @@ application {
 shadowJar {
     archiveBaseName = "duke"
     archiveClassifier = null
+    archiveFileName = 'bhavs.jar'
 }
 sourceSets {
     test {

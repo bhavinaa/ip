@@ -7,3 +7,4 @@ D | 0 | cs2109s | 2025-01-01 2020
 T | 0 | why
 T | 0 | next
 T | 0 | exit
+T | 0 | exit
