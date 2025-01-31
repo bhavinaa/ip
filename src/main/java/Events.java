@@ -2,7 +2,7 @@ class Events extends Task {
     private Time start;
     private Time end;
 
-    // Constructor for user input (interactive mode)
+    // Constructor for user input (interactive mode) (THIS IS WHEN you are taking in user input)
     public Events(String description, String start, String end) {
         super(description);
         this.start = new Time(start, true); // Ask user until valid input
@@ -10,6 +10,7 @@ class Events extends Task {
     }
 
     // Constructor for loading from file (non-interactive)
+    // you need to reinitalise the taskobject. during this time, you cannot ask for the user INPUT again
     public Events(String description, boolean isDone, String start, String end) {
         super(description, isDone);
         this.start = new Time(start); // Load directly from file

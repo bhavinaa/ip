@@ -45,13 +45,13 @@ public class Time {
             input = cleanInput(input);
             return LocalDateTime.parse(input, INPUT_FORMAT);
         } catch (DateTimeParseException e) {
-            return null; // Handle errors gracefully
+            return null;
         }
     }
 
     private String cleanInput(String input) {
         input = input.trim(); // Remove extra spaces
-        input = input.replace("/", "-"); // Convert slashes to dashes
+        input = input.replace("/", "-");
         return input;
     }
 
