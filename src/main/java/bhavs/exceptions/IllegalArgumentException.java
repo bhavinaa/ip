@@ -1,3 +1,5 @@
+package bhavs.exceptions;
+
 public class IllegalArgumentException extends Exception {
 
     public IllegalArgumentException() {

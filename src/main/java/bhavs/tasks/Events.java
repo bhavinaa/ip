@@ -1,4 +1,8 @@
-class Events extends Task {
+package bhavs.tasks;
+
+import bhavs.utils.Time;
+
+public class Events extends Task {
     private Time start;
     private Time end;
 

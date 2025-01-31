@@ -1,4 +1,6 @@
-class ToDos extends Task {
+package bhavs.tasks;
+
+public class ToDos extends Task {
     public ToDos(String description) {
         super(description);
     }
@@ -13,7 +15,7 @@ class ToDos extends Task {
         return "[T]" + super.toString();
     }
 
-    // ✅ Convert task to file format (needed for saving)
+
     @Override
     public String toFileFormat() {
         return "T | " + super.toFileFormat();
