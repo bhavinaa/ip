@@ -35,6 +35,11 @@ shadowJar {
     archiveBaseName = "duke"
     archiveClassifier = null
 }
+sourceSets {
+    test {
+        java.srcDirs = ['test']
+    }
+}
 
 run{
     standardInput = System.in
