@@ -1,16 +1,17 @@
 
 class Deadlines extends Task {
-    private String deadline;
+    private Time deadline;
 
+    // Constructor for user input (interactive mode)
     public Deadlines(String description, String deadline) {
         super(description);
-        this.deadline = deadline;
+        this.deadline = new Time(deadline, true);
     }
 
-    // ✅ Add a second constructor for file loading
+    // Constructor for loading from file (non-interactive)
     public Deadlines(String description, boolean isDone, String deadline) {
         super(description, isDone);
-        this.deadline = deadline;
+        this.deadline = new Time(deadline);
     }
 
     @Override
@@ -18,9 +19,8 @@ class Deadlines extends Task {
         return "[D]" + super.toString() + " (by: " + deadline + ")";
     }
 
-    // ✅ Convert task to file format
     @Override
     public String toFileFormat() {
-        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + deadline;
+        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + deadline.toFileFormat();
     }
 }
