@@ -8,3 +8,7 @@ T | 0 | why
 T | 0 | next
 T | 0 | exit
 T | 0 | exit
+T | 0 | find
+T | 0 | one
+T | 1 | find
+T | 0 | clear
