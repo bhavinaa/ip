@@ -103,7 +103,7 @@ public class UI {
                 case "find":
                     System.out.println("input what do you want to find?");
                     this.taskList.findTasks(scanner);
-                   
+                    break;
                 default:
                     processRequest(userCommand);
             }
