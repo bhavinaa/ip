@@ -20,4 +20,5 @@ T | 0 | next1
 T | 0 | next
 T | 0 | find
 T | 0 | next
-T | 0 | find
+T | 1 | find
+T | 1 | yes

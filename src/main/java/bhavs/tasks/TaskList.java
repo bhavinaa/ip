@@ -86,7 +86,7 @@ public class TaskList {
     public int getTaskIndex(Scanner scanner, String prompt, int listSize) {
         System.out.println(prompt);
         int index = scanner.nextInt() - 1;
-        scanner.nextLine(); // Consume newline
+        scanner.nextLine();
         if (index < 0 || index >= listSize) {
             System.out.println("Invalid task number. Please try again.");
             return getTaskIndex(scanner, prompt, listSize);

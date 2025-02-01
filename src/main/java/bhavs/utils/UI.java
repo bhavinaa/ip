@@ -6,9 +6,8 @@ import java.util.Scanner;
 
 /*
 
-the UI was made so i
-can consolidate where the input and the output of the
-code functions is
+the UI class contains all the helper functions that allows you to interact with
+the system and access items from the storage
 
 
 */
@@ -27,6 +26,7 @@ public class UI {
         this.storage = new Storage(filePath, taskList);
     }
 
+    // used AI to generate a code block for this (and had created this)
     public void printAllComands() {
         System.out.println("Here are the available commands:");
         System.out.println("-----------------------------------");
@@ -103,6 +103,7 @@ public class UI {
                 case "find":
                     System.out.println("input what do you want to find?");
                     this.taskList.findTasks(scanner);
+                   
                 default:
                     processRequest(userCommand);
             }
