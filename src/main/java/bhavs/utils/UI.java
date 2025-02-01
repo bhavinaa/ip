@@ -1,15 +1,11 @@
 package bhavs.utils;
 
 import bhavs.tasks.*;
-
 import java.util.Scanner;
 
 /*
-
 the UI class contains all the helper functions that allows you to interact with
 the system and access items from the storage
-
-
 */
 public class UI {
 
