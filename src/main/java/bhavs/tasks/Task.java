@@ -1,6 +1,5 @@
 package bhavs.tasks;
 
-
 /**
  * Represents a task with a description and a completion status.
  * This class serves as a base for different types of tasks.
@@ -8,14 +7,14 @@ package bhavs.tasks;
 public class Task {
     protected String description;
 
-
     protected boolean isDone;
 
     /**
      * Constructs a new task with the given description.
      * The task is initially marked as incomplete.
      *
-     * @param description The description of the task.
+     * @param description
+     *         The description of the task.
      */
 
     public Task(String description) {
@@ -27,8 +26,10 @@ public class Task {
      * Constructs a task with the given description and completion status.
      * Used when loading tasks from storage.
      *
-     * @param description The description of the task.
-     * @param isDone Whether the task is completed (true) or not (false).
+     * @param description
+     *         The description of the task.
+     * @param isDone
+     *         Whether the task is completed (true) or not (false).
      */
 
     public Task(String description, boolean isDone) { // Constructor for loading tasks
@@ -60,7 +61,6 @@ public class Task {
     public String toFileFormat() {
         return (isDone ? "1" : "0") + " | " + description;
     }
-
 
     /**
      * Returns a string representation of the task.
