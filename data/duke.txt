@@ -12,3 +12,5 @@ T | 0 | find
 T | 0 | one
 T | 1 | find
 T | 0 | clear
+T | 0 | clear
+T | 0 | byw

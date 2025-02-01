@@ -2,12 +2,12 @@ package bhavs.tasks;
 
 import bhavs.utils.Time;
 
-
 /**
  * A type of tasks that includes two start and end times
  * two constructors is needed to initalise this as the format of the input from hte user is different from
  * the way it is read from the file 
- */
+ **/
+
 public class Events extends Task {
     private Time start;
     private Time end;
