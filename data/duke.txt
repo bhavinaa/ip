@@ -14,3 +14,10 @@ T | 1 | find
 T | 0 | clear
 T | 0 | clear
 T | 0 | byw
+T | 0 | next
+T | 0 | next
+T | 0 | next1
+T | 0 | next
+T | 0 | find
+T | 0 | next
+T | 0 | find

@@ -5,7 +5,7 @@ public class ToDos extends Task {
         super(description);
     }
 
-    // ✅ Add a second constructor for loading from file
+    // Add a second constructor for loading from file
     public ToDos(String description, boolean isDone) {
         super(description, isDone);
     }

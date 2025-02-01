@@ -42,8 +42,8 @@ public class UI {
         System.out.println("-----------------------------------");
         System.out.println("\nTask Input Formats:");
         System.out.println("ToDo:        read book");
-        System.out.println("Deadline:    return book, June 6th");
-        System.out.println("Event:       birthday, April 5th, 10-4pm");
+        System.out.println("Deadline:    return book, 2025/01/30 1600");
+        System.out.println("Event:       birthday, 2020/05/05 0500, 2025/06/04 1900");
         System.out.println("you have to separate the task commands by the comma to differentiate it");
     }
 
@@ -102,8 +102,7 @@ public class UI {
                     break;
                 case "find":
                     System.out.println("input what do you want to find?");
-                    String keyword = getUserInput(scanner, null);
-                    this.taskList.findTasks(keyword);
+                    this.taskList.findTasks(scanner);
                 default:
                     processRequest(userCommand);
             }

@@ -114,7 +114,8 @@ public class TaskList {
         return this.taskList;
     }
 
-    public void findTasks(String keyword) {
+    public void findTasks(Scanner scanner) {
+        String keyword = scanner.nextLine();
         List<Task> matchingTasks = new ArrayList<>();
 
         for (Task task : taskList) {
