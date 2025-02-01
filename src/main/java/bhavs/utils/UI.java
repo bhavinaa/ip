@@ -101,6 +101,10 @@ public class UI {
                 case "commands":
                     printAllComands();
                     break;
+                case "find":
+                    System.out.println("input what do you want to find?");
+                    String keyword = getUserInput(scanner, null);
+                    this.taskList.findTasks(keyword);
                 default:
                     processRequest(userCommand);
             }
