@@ -1,6 +1,5 @@
 package bhavs.utils;
 
-
 import bhavs.tasks.*;
 import bhavs.tasks.TaskList;
 
@@ -22,6 +21,7 @@ public class UI {
     private Scanner scanner = new Scanner(System.in);
     private String filePath;
     private TaskList taskList; // List of tasks
+
     public UI(String filePath, TaskList taskList) {
         this.taskList = taskList;
         this.filePath = filePath;
@@ -54,7 +54,7 @@ public class UI {
         System.out.println("____________________________________________________________");
     }
 
-    public void personalWelcomeToGuest(){
+    public void personalWelcomeToGuest() {
 
         String userName = getUserInput(scanner, "What is your name?");
         this.userName = userName;
@@ -111,6 +111,7 @@ public class UI {
         }
 
     }
+
     public void processRequest(String userCommand) {
         Task newTask = make_correct_entry(userCommand);
 
@@ -125,9 +126,6 @@ public class UI {
         }
     }
 
-
-
-
     public void displayTasks() {
         if (taskList.isEmpty()) {
             System.out.println("Your task list is empty.");
@@ -138,11 +136,6 @@ public class UI {
             }
         }
     }
-
-
-
-
-
 
     public Task make_correct_entry(String userCommand) {
         String[] parts = userCommand.split(",\\s*"); // Split by comma, allowing spaces

@@ -34,7 +34,6 @@ public class Storage {
      * If the file or its parent directories do not exist, they will be created.
      * Prints an error message if saving fails.
      */
-
     public void saveTasksToFile() {
         try {
             File file = new File(filePath);

@@ -39,8 +39,6 @@ public class TaskList {
      *
      * @param scanner Scanner object used to get user input.
      */
-
-
     public void markTask(Scanner scanner) {
         if (taskList.isEmpty()) {
             System.out.println("Your task list is empty.");
@@ -58,7 +56,6 @@ public class TaskList {
      *
      * @param scanner Scanner object used to get user input.
      */
-
     public void unmarkTask(Scanner scanner) {
         if (taskList.isEmpty()) {
             System.out.println("No tasks to unmark.");
@@ -79,7 +76,6 @@ public class TaskList {
      * @param listSize The number of tasks in the list.
      * @return The valid task index.
      */
-
     public int getTaskIndex(Scanner scanner, String prompt, int listSize) {
         System.out.println(prompt);
         int index = scanner.nextInt() - 1;
