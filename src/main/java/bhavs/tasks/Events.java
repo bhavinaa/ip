@@ -1,7 +1,7 @@
 package bhavs.tasks;
 
 import bhavs.utils.Time;
-
+// a type of task class which has two more inputs the start and the end duration of the event
 public class Events extends Task {
     private Time start;
     private Time end;
