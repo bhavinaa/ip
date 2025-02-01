@@ -1,6 +1,5 @@
 package bhavs.tasks;
 
-
 import bhavs.utils.Time;
 
 public class Deadlines extends Task {
@@ -20,13 +19,11 @@ public class Deadlines extends Task {
 
     @Override
     public String toString() {
-        return "[D]" +
-                super.toString() + " (by: " + deadline + ")";
+        return "[D]" + super.toString() + " (by: " + deadline + ")";
     }
 
     @Override
     public String toFileFormat() {
-        return "D | " + (isDone ? "1" : "0") + " | " +
-                description + " | " + deadline.toFileFormat();
+        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + deadline.toFileFormat();
     }
 }

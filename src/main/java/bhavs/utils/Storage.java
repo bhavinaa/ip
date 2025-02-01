@@ -19,8 +19,10 @@ public class Storage {
     /**
      * Constructs a {@code Storage} object that manages the saving and loading of tasks.
      *
-     * @param filePath The path to the file where tasks are stored.
-     * @param taskList The task list that holds tasks in memory.
+     * @param filePath
+     *         The path to the file where tasks are stored.
+     * @param taskList
+     *         The task list that holds tasks in memory.
      */
     public Storage(String filePath, TaskList taskList) {
         this.filePath = filePath;

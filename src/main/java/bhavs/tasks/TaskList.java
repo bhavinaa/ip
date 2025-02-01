@@ -1,10 +1,10 @@
 package bhavs.tasks;
 
 import bhavs.utils.Storage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
 
 /**
  * Manages a list of tasks, including adding, deleting, marking, and unmarking tasks.
@@ -19,7 +19,8 @@ public class TaskList {
      * Deletes a task from the list based on user input.
      * If the list is empty, it informs the user.
      *
-     * @param scanner Scanner object used to get user input.
+     * @param scanner
+     *         Scanner object used to get user input.
      */
     public void deleteTask(Scanner scanner) {
         if (taskList.isEmpty()) {
@@ -37,7 +38,8 @@ public class TaskList {
      * Marks a task as completed based on user input.
      * If the list is empty, it informs the user.
      *
-     * @param scanner Scanner object used to get user input.
+     * @param scanner
+     *         Scanner object used to get user input.
      */
     public void markTask(Scanner scanner) {
         if (taskList.isEmpty()) {
@@ -54,7 +56,8 @@ public class TaskList {
      * Marks a task as incomplete based on user input.
      * If the list is empty, it informs the user.
      *
-     * @param scanner Scanner object used to get user input.
+     * @param scanner
+     *         Scanner object used to get user input.
      */
     public void unmarkTask(Scanner scanner) {
         if (taskList.isEmpty()) {
@@ -71,9 +74,13 @@ public class TaskList {
      * Retrieves a valid task index from the user.
      * If an invalid index is entered, prompts the user to try again.
      *
-     * @param scanner Scanner object used to get user input.
-     * @param prompt The prompt message displayed to the user.
-     * @param listSize The number of tasks in the list.
+     * @param scanner
+     *         Scanner object used to get user input.
+     * @param prompt
+     *         The prompt message displayed to the user.
+     * @param listSize
+     *         The number of tasks in the list.
+     *
      * @return The valid task index.
      */
     public int getTaskIndex(Scanner scanner, String prompt, int listSize) {

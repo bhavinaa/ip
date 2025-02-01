@@ -6,9 +6,9 @@ import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Time {
-    private LocalDateTime dateTime;
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
+    private LocalDateTime dateTime;
 
     public Time(String input, boolean isInteractive) {
         if (isInteractive) {

@@ -15,7 +15,6 @@ public class ToDos extends Task {
         return "[T]" + super.toString();
     }
 
-
     @Override
     public String toFileFormat() {
         return "T | " + super.toFileFormat();
