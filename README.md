@@ -1,19 +1,21 @@
-# Bhavs  
+# 🚀 Bhavs  
 
-> “Lost time is never found again” – Benjamin Franklin.
+> “Lost time is never found again” – Benjamin Franklin.  
 
-## What is Bhavs?  
+## 📌 What is Bhavs?  
 Bhavs is a **task management and productivity tool** designed to help users stay organized, meet deadlines, and efficiently track their goals. Whether you're a student, professional, or entrepreneur, Bhavs provides an intuitive interface to manage tasks seamlessly.  
 
 ## Overview  
-Bhavs is a **text-based** productivity application that allows users to:  
+Bhavs is a lightweight, **text-based** productivity application 🚀 that allows users to:  
 - **Add and manage tasks** effortlessly  
 - **Track deadlines** to never miss important dates  
 - **Set reminders** for upcoming tasks  
 - **Filter tasks** based on priority, due date, or completion status  
 
 ## Motivation  
-The idea behind Bhavs was born out of the **need for a simple yet effective** task management solution. Many existing tools are either too complex or lack the flexibility needed for different workflows.  This is a ~~simple~~ very simple markdown tool
+The idea behind Bhavs was born out of the **need for a simple yet effective** task management solution. Many existing tools are either too complex or lack the *flexibility* needed for different workflows.  
+
+This is a ~~simple~~ very simple markdown tool.  
 
 Our key motivations:  
 1. **Simplicity & Usability** – Creating an easy-to-use tool without unnecessary complexity  
@@ -35,12 +37,7 @@ public class Main {
 }
 ```
 
-## How to run the code
-```java
-cd path/to/your/project
-javac src/Bhavs.java
-```
+## Author
 
-## Code Structure
+[More about the Author](https://github.com/bhavinaa)
 
-## TroubleShooting
