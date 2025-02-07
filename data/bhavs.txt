@@ -1,0 +1,7 @@
+T | 0 | hello
+T | 0 | taks
+T | 0 | print
+T | 1 | exit
+T | 0 | so
+T | 0 | task
+T | 0 | exit
