@@ -1,10 +1,14 @@
 package bhavs.utils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import bhavs.tasks.Task;
 import bhavs.tasks.TaskList;
-
-import java.io.*;
-
 /**
  * Handles loading and saving of tasks to a file.
  * Ensures that tasks persist between program runs.
@@ -12,7 +16,7 @@ import java.io.*;
 public class Storage {
 
     private String filePath;
-    public TaskList taskList;
+    private TaskList taskList;
 
     private Parser parser = new Parser();
 
