@@ -5,3 +5,7 @@ T | 1 | exit
 T | 0 | so
 T | 0 | task
 T | 0 | exit
+T | 0 | exit
+T | 0 | exit
+T | 0 | exit
+T | 0 | exit

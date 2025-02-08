@@ -31,7 +31,7 @@ public class Storage {
     public Storage(String filePath, TaskList taskList) {
         this.filePath = filePath;
         this.taskList = taskList;
-        this.taskList.storedIn = this;
+        this.taskList.setStoredIn(this);
 
     }
 
