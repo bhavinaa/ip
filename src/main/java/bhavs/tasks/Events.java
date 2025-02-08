@@ -35,6 +35,7 @@ public class Events extends Task {
     // ✅ Convert event task to file format (for saving)
     @Override
     public String toFileFormat() {
-        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + start.toFileFormat() + " | " + end.toFileFormat();
+        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + start.toFileFormat() + " | "
+                + end.toFileFormat();
     }
 }

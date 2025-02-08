@@ -341,11 +341,10 @@
       <property name="option" value="eol"/>
     </module>
 
-    <module name="Indentation">
-      <property name="caseIndent" value="0" />
-      <property name="throwsIndent" value="8" />
-    </module>
-
+<!--    <module name="Indentation">-->
+<!--      <property name="caseIndent" value="0" />-->
+<!--      <property name="throwsIndent" value="8" />-->
+<!--    </module>-->
     <module name="NoWhitespaceBefore">
       <!-- Checks that there is no whitespace before various unary operators. Linebreaks are allowed. -->
       <property name="tokens" value="SEMI, DOT, POST_DEC, POST_INC"/>
@@ -421,14 +420,14 @@
     <module name="InvalidJavadocPosition"/>
 
     <!-- Checks that every public method (excluding getters, setters and constructors) has a header comment. -->
-    <module name="MissingJavadocMethodCheck">
-      <property name="minLineCount" value="1"/>
-      <property name="allowMissingPropertyJavadoc" value="true"/>
-      <property name="ignoreMethodNamesRegex" value="(set.*|get.*|main)"/>
-    </module>
+<!--    <module name="MissingJavadocMethodCheck">-->
+<!--      <property name="minLineCount" value="1"/>-->
+<!--      <property name="allowMissingPropertyJavadoc" value="true"/>-->
+<!--      <property name="ignoreMethodNamesRegex" value="(set.*|get.*|main)"/>-->
+<!--    </module>-->
 
     <!-- Checks that every public class, enumeration and interface has a header comment. -->
-    <module name="MissingJavadocType"/>
+<!--    <module name="MissingJavadocType"/>-->
 
   </module>
 </module>

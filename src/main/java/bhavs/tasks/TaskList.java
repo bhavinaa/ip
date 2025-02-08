@@ -1,10 +1,11 @@
 package bhavs.tasks;
 
-import bhavs.utils.Storage;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import bhavs.utils.Storage;
+
 
 /**
  * Manages a list of tasks, including adding, deleting, marking, and unmarking tasks.
@@ -13,7 +14,7 @@ import java.util.Scanner;
 public class TaskList {
 
     private List<Task> taskList = new ArrayList<>();
-    public Storage storedIn;
+    private Storage storedIn;
 
     /**
      * Deletes a task from the list based on user input.
@@ -112,6 +113,10 @@ public class TaskList {
 
     public List<Task> getTasks() {
         return this.taskList;
+    }
+
+    public void setStoredIn(Storage storedIn) {
+        this.storedIn = storedIn;
     }
 
     public void findTasks(Scanner scanner) {

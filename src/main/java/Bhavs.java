@@ -27,10 +27,12 @@ class Bhavs {
      *
      * @param args Command-line arguments are taken in from the other side of the application.
      */
+
     public static void main(String[] args) {
         Bhavs chatBot = new Bhavs();
         chatBot.run();
     }
+
     /**
      * Runs the chatbot, handling user interactions and task management.
      * Initializes the user interface, loads tasks from storage, and processes user commands.
@@ -41,5 +43,9 @@ class Bhavs {
         ui.printWelcomeMessage();
         ui.personalWelcomeToGuest();
         ui.processComands();
+    }
+
+    public String getResponse(String input) {
+        return "Bhavs heard: " + input;
     }
 }
