@@ -52,9 +52,25 @@ public class DialogBox extends HBox {
         return new DialogBox(text, img);
     }
 
-    public static DialogBox getDukeDialog(String text, Image img) {
+    public static DialogBox getBhavsDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();
         return db;
     }
+
+    public static DialogBox getBhavsDialog(String text, Image img, String command) {
+        var db = new DialogBox(text, img);
+        db.flip();
+        db.changeDialogStyle(command);
+        return db;
+    }
+
+    @SuppressWarnings("checkstyle:Regexp")
+    private void changeDialogStyle(String command) {
+        // switch(commandType) {
+        //     case TASK -> dialog.getStyleClass().add("add-label");
+        //     case MARK -> dialog.getStyleClass().add("marked-label");
+        //     case DELETE -> dialog.getStyleClass().add("delete-label");
+        //     default -> dialog.getStyleClass().add("");
+        }
 }
