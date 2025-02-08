@@ -1,3 +1,4 @@
+package bhavs;
 import bhavs.tasks.TaskList;
 import bhavs.utils.UI;
 
@@ -7,7 +8,7 @@ import bhavs.utils.UI;
  * This class initializes and runs the chatbot, handling user interactions
  * and task management.
  */
-class bhavs {
+class Bhavs {
 
     /** File path for saving tasks. */
     private static final String FILE_PATH = "./data/duke.txt"; // File path for saving tasks (not sure how to give this)
@@ -21,15 +22,15 @@ class bhavs {
      * @param args Command-line arguments are taken in from the other side of the
      *             application.
      */
-    public static void main(String[] args) {
-        bhavs chatBot = new bhavs();
-        chatBot.run();
-    }
+    // public static void main(String[] args) {
+    //     Bhavs chatBot = new Bhavs();
+    //     chatBot.run();
+    // }
 
     /**
      * Constructs a new instance of the chatbot with an empty task list.
      */
-    public bhavs() {
+    public Bhavs() {
         this.taskList = new TaskList();
     }
 
@@ -38,6 +39,9 @@ class bhavs {
      * Initializes the user interface, loads tasks from storage, and processes user commands.
      */
 
+    public String getResponse(String input) {
+        return "Bhavs heard: " + input;
+    }
 
     public void run() {
         UI ui = new UI(FILE_PATH, taskList);
