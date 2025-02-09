@@ -51,7 +51,7 @@ public class Time {
     }
 
     private String cleanInput(String input) {
-        input = input.trim(); // Remove extra spaces
+        input = input.trim();
         input = input.replace("/", "-");
         return input;
     }

@@ -25,3 +25,7 @@ T | 1 | yes
 T | 0 | next
 T | 0 | qhat
 T | 0 | makr
+T | 0 | h3lo
+T | 0 | b
+T | 0 | lsit
+T | 0 | lsit

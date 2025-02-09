@@ -1,26 +1,38 @@
 package bhavs;
-import bhavs.tasks.TaskList;
-import bhavs.utils.UI;
 
+import bhavs.tasks.TaskList;
+import bhavs.utils.Storage;
+import bhavs.utils.UI;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The main entry point for the Bhavs chatbot application.
  * This class initializes and runs the chatbot, handling user interactions
  * and task management.
  */
-class Bhavs {
+public class Bhavs {
 
-    /** File path for saving tasks. */
-    private static final String FILE_PATH = "./data/duke.txt"; // File path for saving tasks (not sure how to give this)
+    /** Logger for error handling */
+    private static final Logger LOGGER = Logger.getLogger(Bhavs.class.getName());
 
-    /** List of tasks managed by the chatbot. */
-    public TaskList taskList; // List of tasks
+    /** File path for saving tasks */
+    private static final String FILE_PATH = "./data/duke.txt";
+
+    /** List of tasks managed by the chatbot */
+    private final TaskList taskList;
+
+    /** Handles UI interactions */
+    private final UI ui;
+
+    /** Handles data storage */
+    private final Storage storage;
+
     @FXML
     private TextField userInputField; // Input field for user commands
 
@@ -28,41 +40,42 @@ class Bhavs {
     private TextArea outputArea; // TextArea to display output
 
     /**
-     * The main method that starts the chatbot application.
-     *
-     * @param args Command-line arguments are taken in from the other side of the
-     *             application.
-     */
-    // public static void main(String[] args) {
-    //     Bhavs chatBot = new Bhavs();
-    //     chatBot.run();
-    // }
-
-    /**
-     * Constructs a new instance of the chatbot with an empty task list.
+     * Constructs a new instance of the chatbot.
+     * Initializes task list, UI, and storage.
      */
     public Bhavs() {
-        this.taskList = new TaskList();
+        Storage storage = new Storage("./data/duke.txt");
+        TaskList taskList = storage.getTaskList();  // Use the same list
+        this.taskList = taskList;
+        this.ui = new UI(storage, taskList);
+        this.storage = storage;
     }
 
     /**
-     * Runs the chatbot, handling user interactions and task management.
-     * Initializes the user interface, loads tasks from storage, and processes user commands.
+     * Returns a response from the chatbot.
+     *
+     * @param input The user input.
+     * @return A formatted chatbot response.
      */
-
     public String getResponse(String input) {
         return "Bhavs heard: " + input;
     }
 
+    /**
+     * Provides a greeting message to the user.
+     *
+     * @return A welcome message.
+     */
     public String getGreeting() {
-        String input = "Hello! I help keep track of your tasks." +
-        "Type 'list' to see tasks, 'command' to see the list of commands, 'bye' to exit.";
-        return input;
+        return "Hello! I help keep track of your tasks.\n"
+                + "Type 'list' to see tasks, 'commands' to see the list of commands, or 'bye' to exit.";
     }
 
+    /**
+     * Initializes UI components and sets up event listeners.
+     */
     @FXML
     public void initialize() {
-        // Listen for Enter key presses in the TextField
         userInputField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 handleUserCommand();
@@ -70,6 +83,10 @@ class Bhavs {
         });
     }
 
+    /**
+     * Handles user input from the text field.
+     * Processes commands and updates the output area accordingly.
+     */
     @FXML
     private void handleUserCommand() {
         String userCommand = userInputField.getText().trim();
@@ -79,48 +96,63 @@ class Bhavs {
             return; // Ignore empty input
         }
 
-        switch (userCommand.toLowerCase()) {
-            case "list":
-                outputArea.appendText(displayTasks() + "\n");
-                break;
-            case "mark":
-                outputArea.appendText("Enter task number to mark.\n");
-                break;
-            case "unmark":
-                outputArea.appendText("Enter task number to unmark.\n");
-                break;
-            case "delete":
-                outputArea.appendText("Enter task number to delete.\n");
-                break;
-            case "save":
-
-                // storage.saveTasksToFile();
-                outputArea.appendText("Tasks saved successfully.\n");
-                break;
-            case "quit":
-            case "bye":
-                outputArea.appendText("Bye! Hope to see you again soon.\n");
-                break;
-            case "commands":
-                outputArea.appendText(getAllCommands() + "\n");
-                break;
-            case "find":
-                outputArea.appendText("Enter keyword to search.\n");
-                break;
-            default:
-                outputArea.appendText(processRequest(userCommand) + "\n");
+        try {
+            switch (userCommand.toLowerCase()) {
+                case "list":
+                    outputArea.appendText(displayTasks() + "\n");
+                    break;
+                case "mark":
+                    outputArea.appendText("Enter task number to mark.\n");
+                    break;
+                case "unmark":
+                    outputArea.appendText("Enter task number to unmark.\n");
+                    break;
+                case "delete":
+                    outputArea.appendText("Enter task number to delete.\n");
+                    break;
+                case "save":
+                    storage.saveTasksToFile();
+                    outputArea.appendText("Tasks saved successfully.\n");
+                    break;
+                case "quit":
+                case "bye":
+                    outputArea.appendText("Bye! Hope to see you again soon.\n");
+                    break;
+                case "commands":
+                    outputArea.appendText(getAllCommands() + "\n");
+                    break;
+                case "find":
+                    outputArea.appendText("Enter keyword to search.\n");
+                    break;
+                default:
+                    outputArea.appendText(processUserCommand(userCommand) + "\n");
+            }
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Error processing command: " + userCommand, e);
+            outputArea.appendText("An error occurred while processing your request.\n");
         }
     }
 
-    private String processRequest(String userCommand) {
-        // Process and return a response instead of printing directly
+    /**
+     * Processes user commands and returns a response.
+     *
+     * @param userCommand The command entered by the user.
+     * @return A formatted response.
+     */
+    private String processUserCommand(String userCommand) {
         return "Processing request: " + userCommand;
     }
 
+    /**
+     * Displays the list of tasks currently stored.
+     *
+     * @return A formatted list of tasks.
+     */
     private String displayTasks() {
         if (taskList.isEmpty()) {
             return "Your task list is empty.";
         }
+
         StringBuilder sb = new StringBuilder("Here are your tasks:\n");
         for (int i = 0; i < taskList.size(); i++) {
             sb.append((i + 1)).append(". ").append(taskList.get(i)).append("\n");
@@ -128,25 +160,31 @@ class Bhavs {
         return sb.toString();
     }
 
+    /**
+     * Provides a list of available commands.
+     *
+     * @return A formatted command list.
+     */
     private String getAllCommands() {
-        return "Here are the available commands:\n"
-                + "-----------------------------------\n"
-                + "1. list          - Display all tasks\n"
-                + "2. mark          - Mark a task as completed\n"
-                + "3. unmark        - Unmark a completed task\n"
-                + "4. delete        - Delete a task\n"
-                + "5. save          - Manually save tasks to file\n"
-                + "6. quit          - Exit the program\n"
-                + "7. commands      - Show this list of commands\n"
-                + "8. find          - Search for a task by keyword\n"
-                + "-----------------------------------";
+        return """
+                Here are the available commands:
+                -----------------------------------
+                1. list          - Display all tasks
+                2. mark          - Mark a task as completed
+                3. unmark        - Unmark a completed task
+                4. delete        - Delete a task
+                5. save          - Manually save tasks to file
+                6. quit          - Exit the program
+                7. commands      - Show this list of commands
+                8. find          - Search for a task by keyword
+                -----------------------------------
+                """;
     }
 
+    /**
+     * Runs the chatbot, initializing the UI and loading tasks from storage.
+     */
     public void run() {
-        UI ui = new UI(FILE_PATH, taskList);
         ui.loadTasks();
-        // ui.printWelcomeMessage();
-        // ui.personalWelcomeToGuest();
-        // ui.processComands();
     }
 }

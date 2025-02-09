@@ -1,258 +1,88 @@
 package bhavs.utils;
 
 import bhavs.tasks.*;
+import java.util.logging.Logger;
 
-import java.util.Scanner;
-
-/*
-
-the UI class contains all the helper functions that allows you to interact with
-the system and access items from the storage
-
-
-*/
+/**
+ * Manages user interactions and processes commands for the Bhavs chatbot.
+ * Handles input processing, task management, and file storage interactions.
+ */
 public class UI {
 
+    private static final Logger LOGGER = Logger.getLogger(UI.class.getName());
+
+    private final TaskList taskList;
+    private final Storage storage;
     private String userName;
 
-    private Storage storage;
-    private Scanner scanner = new Scanner(System.in);
-    private String filePath;
-    private TaskList taskList; // List of tasks
-
-    public UI(String filePath, TaskList taskList) {
+    /**
+     * Constructs a UI instance to handle user interactions.
+     *
+     * @param storage The storage handler for saving and loading tasks.
+     * @param taskList The task list to manage tasks.
+     */
+    public UI(Storage storage, TaskList taskList) {
         this.taskList = taskList;
-        this.filePath = filePath;
-        this.storage = new Storage(filePath, taskList);
+        this.storage = storage;
     }
 
-    // used AI to generate a code block for this (and had created this)
-    public void printAllComands() {
-        System.out.println("Here are the available commands:");
-        System.out.println("-----------------------------------");
-        System.out.println("1. list          - Display all tasks");
-        System.out.println("2. mark          - Mark a task as completed");
-        System.out.println("3. unmark        - Unmark a completed task");
-        System.out.println("4. delete        - Delete a task");
-        System.out.println("5. save          - Manually save tasks to file");
-        System.out.println("6. quit          - Exit the program");
-        System.out.println("7. commands      - Show this list of commands");
-        System.out.println("8. [Task input]  - Add a new ToDo, Deadline, or Event");
-
-        System.out.println("-----------------------------------");
-        System.out.println("\nTask Input Formats:");
-        System.out.println("ToDo:        read book");
-        System.out.println("Deadline:    return book, 2025/01/30 1600");
-        System.out.println("Event:       birthday, 2020/05/05 0500, 2025/06/04 1900");
-        System.out.println("you have to separate the task commands by the comma to differentiate it");
+    /**
+     * Loads tasks from the storage file into memory.
+     */
+    public void loadTasks() {
+        storage.loadTasksFromFile();
     }
 
-    public String guiGetAllCommands() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Here are the available commands:\n");
-        sb.append("-----------------------------------\n");
-        sb.append("1. list          - Display all tasks\n");
-        sb.append("2. mark          - Mark a task as completed\n");
-        sb.append("3. unmark        - Unmark a completed task\n");
-        sb.append("4. delete        - Delete a task\n");
-        sb.append("5. save          - Manually save tasks to file\n");
-        sb.append("6. quit          - Exit the program\n");
-        sb.append("7. commands      - Show this list of commands\n");
-        sb.append("8. [Task input]  - Add a new ToDo, Deadline, or Event\n");
-        sb.append("-----------------------------------\n\n");
-        sb.append("Task Input Formats:\n");
-        sb.append("ToDo:        read book\n");
-        sb.append("Deadline:    return book, 2025/01/30 1600\n");
-        sb.append("Event:       birthday, 2020/05/05 0500, 2025/06/04 1900\n");
-        sb.append("You have to separate the task commands by a comma to differentiate them\n");
-
-        return sb.toString();
+    /**
+     * Retrieves the storage instance.
+     *
+     * @return The storage instance.
+     */
+    public Storage getStorage() {
+        return this.storage;
     }
 
-
-
-    public void printWelcomeMessage() {
-        System.out.println("Hello! I help keep track of your tasks.");
-        System.out.println("Type 'list' to see tasks, 'command' to see the list of commands, 'bye' to exit.");
-        System.out.println("____________________________________________________________");
+    /**
+     * Returns a welcome message.
+     *
+     * @return The welcome message string.
+     */
+    public String getWelcomeMessage() {
+        return "Hello! I help keep track of your tasks.\n"
+                + "Type 'list' to see tasks, 'commands' to see available commands, 'bye' to exit.";
     }
 
-    public void personalWelcomeToGuest() {
-
-        String userName = getUserInput(scanner, "What is your name?");
-        this.userName = userName;
-        System.out.println("Hi " + userName + "! You have a cool name.");
-        System.out.println("What can I add to the list?");
-    }
-
-    public String guiGetWelcomeMessage() {
-        return "Hello! I help keep track of your tasks.\n" +
-                "Type 'list' to see tasks, 'commands' to see the list of commands, 'bye' to exit.\n" +
-                "____________________________________________________________";
-    }
-
-    public String guiGetPersonalWelcomeMessage(String userName) {
-        this.userName = userName;
-        return "Hi " + userName + "! You have a cool name.\n" +
-                "What can I add to the list?";
-    }
-
-
-    public String getUserInput(Scanner scanner, String prompt) {
-        if (prompt != null) {
-            System.out.println(prompt);
-        }
-        return scanner.nextLine();
-    }
-
-    public void processComands() {
-        while (true) {
-            String userCommand = getUserInput(scanner, null);
-
-            if ("bye".equalsIgnoreCase(userCommand)) {
-                System.out.println("Bye, " + userName + "! Hope to see you again soon!");
-                break;
-            }
-
-            switch (userCommand.toLowerCase()) {
-                case "list":
-                    displayTasks();
-                    break;
-                case "mark":
-                    this.taskList.markTask(scanner);
-                    break;
-                case "unmark":
-                    this.taskList.unmarkTask(scanner);
-                    break;
-                case "delete":
-                    this.taskList.deleteTask(scanner);
-                    break;
-                case "save":
-                    this.storage.saveTasksToFile();
-                    System.out.println("Tasks saved successfully.");
-                    break;
-                case "quit":
-                    System.out.println("Ending the program.");
-                    return;
-                case "commands":
-                    printAllComands();
-                    break;
-                case "find":
-                    System.out.println("input what do you want to find?");
-                    this.taskList.findTasks(scanner);
-                    break;
-                default:
-                    processRequest(userCommand);
-            }
-        }
-
-    }
-
-    public void processRequest(String userCommand) {
-        Task newTask = make_correct_entry(userCommand);
-
-        if (newTask != null) {
-            taskList.add(newTask);
-            storage.saveTasksToFile();
-            System.out.println("Got it. I've added this task:");
-            System.out.println("  " + newTask);
-            System.out.println("Now you have " + taskList.size() + " tasks in the list.");
-        } else {
-            System.out.println("Invalid task format. Please try again.");
-        }
-    }
-
-    public String guiProcessRequest(String userCommand) {
-        Task newTask = make_correct_entry(userCommand);
-
-        if (newTask != null) {
-            taskList.add(newTask);
-            storage.saveTasksToFile();
-            return "Got it. I've added this task:\n  " + newTask + "\nNow you have " + taskList.size() + " tasks in the list.";
-        } else {
-            return "Invalid task format. Please try again.";
-        }
-    }
-
-
-    public void displayTasks() {
-        if (taskList.isEmpty()) {
-            System.out.println("Your task list is empty.");
-        } else {
-            System.out.println("Here are your tasks:");
-            for (int i = 0; i < taskList.size(); i++) {
-                System.out.println((i + 1) + ". " + taskList.get(i));
-            }
-        }
-    }
-
-    public String guidisplayTasks() {
-        if (taskList.isEmpty()) {
-            return "Your task list is empty.";
-        }
-
-        StringBuilder sb = new StringBuilder("Here are your tasks:\n");
-        for (int i = 0; i < taskList.size(); i++) {
-            sb.append((i + 1)).append(". ").append(taskList.get(i)).append("\n");
-        }
-        return sb.toString();
-    }
-
-    public Task make_correct_entry(String userCommand) {
-        String[] parts = userCommand.split(",\\s*"); // Split by comma, allowing spaces
-
-        if (parts.length == 3) {
-            return new Events(parts[0].trim(), parts[1].trim(), parts[2].trim());
-        } else if (parts.length == 2) {
-            return new Deadlines(parts[0].trim(), parts[1].trim());
-        } else if (parts.length == 1) {
-            return new ToDos(parts[0].trim());
-        } else {
-            System.out.println("Invalid input format! Use 'description, date' for deadlines or 'description, start, end' for events.");
-            return null;
-        }
-    }
-
+    /**
+     * Returns a personalized welcome message.
+     *
+     * @param userName The user's name.
+     * @return The personalized greeting.
+     */
     public String getPersonalWelcomeMessage(String userName) {
         this.userName = userName;
         return "Hi " + userName + "! You have a cool name.\nWhat can I add to the list?";
     }
 
-    // public String processCommand(String userCommand) {
-    //     switch (userCommand.toLowerCase()) {
-    //         case "list":
-    //             return guidisplayTasks();
-    //         case "mark":
-    //             return "Enter task number to mark.";
-    //         case "unmark":
-    //             return "Enter task number to unmark.";
-    //         case "delete":
-    //             return "Enter task number to delete.";
-    //         case "save":
-    //             storage.saveTasksToFile();
-    //             return "Tasks saved successfully.";
-    //         case "quit":
-    //         case "bye":
-    //             return "Bye! Hope to see you again soon.";
-    //         case "commands":
-    //             return guiGetAllCommands();
-    //         case "find":
-    //             return "Enter keyword to search.";
-    //         default:
-    //             return guiProcessRequest(userCommand);
-    //     }
-    // }
-
+    /**
+     * Processes user commands and executes corresponding actions.
+     *
+     * @param userCommand The command entered by the user.
+     * @return The response string.
+     */
     public String processCommand(String userCommand) {
-        switch (userCommand.toLowerCase()) {
+        String[] parts = userCommand.split("\\s+", 2);
+        String command = parts[0].toLowerCase();
+        String argument = (parts.length > 1) ? parts[1] : "";
+
+        switch (command) {
             case "list":
-                return guidisplayTasks();
+                return displayTasks();
             case "mark":
-                return "Enter task number to mark.";
+                return markTask(argument);
             case "unmark":
-                return "Enter task number to unmark.";
+                return unmarkTask(argument);
             case "delete":
-                return "Enter task number to delete.";
+                return deleteTask(argument);
             case "save":
                 storage.saveTasksToFile();
                 return "Tasks saved successfully.";
@@ -260,20 +90,135 @@ public class UI {
             case "bye":
                 return "Bye! Hope to see you again soon.";
             case "commands":
-                return guiGetAllCommands();
-            case "find":
-                return "Enter keyword to search.";
+                return getAllCommands();
             default:
-                return guiProcessRequest(userCommand);
+                return addTask(userCommand);
         }
     }
 
-
-
-
-    public void loadTasks() {
-        this.storage.loadTasksFromFile();
+    /**
+     * Marks a task as completed.
+     *
+     * @param argument The task number as a string.
+     * @return The response message.
+     */
+    private String markTask(String argument) {
+        try {
+            int index = Integer.parseInt(argument) - 1;
+            taskList.markTask(index);
+            storage.saveTasksToFile();
+            return "Nice! I've marked this task as done:\n" + taskList.get(index);
+        } catch (NumberFormatException e) {
+            return "Invalid task number. Use 'mark <number>'!";
+        } catch (IndexOutOfBoundsException e) {
+            return "Task number out of range!";
+        }
     }
 
-}
+    /**
+     * Unmarks a completed task.
+     *
+     * @param argument The task number as a string.
+     * @return The response message.
+     */
+    private String unmarkTask(String argument) {
+        try {
+            int index = Integer.parseInt(argument) - 1;
+            taskList.unmarkTask(index);
+            storage.saveTasksToFile();
+            return "OK! I've unmarked this task:\n" + taskList.get(index);
+        } catch (NumberFormatException e) {
+            return "Invalid task number. Use 'unmark <number>'!";
+        } catch (IndexOutOfBoundsException e) {
+            return "Task number out of range!";
+        }
+    }
 
+    /**
+     * Deletes a task from the list.
+     *
+     * @param argument The task number as a string.
+     * @return The response message.
+     */
+    private String deleteTask(String argument) {
+        try {
+            int index = Integer.parseInt(argument) - 1;
+            Task removed = taskList.get(index);
+            taskList.deleteTask(index);
+            storage.saveTasksToFile();
+            return "Noted. I've removed this task:\n" + removed;
+        } catch (NumberFormatException e) {
+            return "Invalid task number. Use 'delete <number>'!";
+        } catch (IndexOutOfBoundsException e) {
+            return "Task number out of range!";
+        }
+    }
+
+    /**
+     * Adds a new task to the list.
+     *
+     * @param input The task description.
+     * @return The response message.
+     */
+    private String addTask(String input) {
+        Task newTask = createTask(input);
+        if (newTask != null) {
+            taskList.add(newTask);
+            storage.saveTasksToFile();
+            return "Got it. I've added this task:\n" + newTask;
+        }
+        return "Invalid task format. Try again.";
+    }
+
+    /**
+     * Creates a task from user input.
+     *
+     * @param input The task description and details.
+     * @return The created Task object.
+     */
+    private Task createTask(String input) {
+        String[] parts = input.split(",\\s*");
+        if (parts.length == 3) {
+            return new Events(parts[0].trim(), parts[1].trim(), parts[2].trim());
+        } else if (parts.length == 2) {
+            return new Deadlines(parts[0].trim(), parts[1].trim());
+        } else if (parts.length == 1) {
+            return new ToDos(parts[0].trim());
+        }
+        return null;
+    }
+
+    /**
+     * Displays the list of tasks.
+     *
+     * @return The formatted task list.
+     */
+    private String displayTasks() {
+        if (taskList.isEmpty()) {
+            return "Your task list is empty.";
+        }
+        StringBuilder sb = new StringBuilder("Here are your tasks:\n");
+        for (int i = 0; i < taskList.size(); i++) {
+            sb.append((i + 1)).append(". ").append(taskList.get(i)).append("\n");
+        }
+        return sb.toString();
+    }
+
+    /**
+     * Returns the list of available commands.
+     *
+     * @return The formatted command list.
+     */
+    private String getAllCommands() {
+        return """
+                Available Commands:
+                1. list - Display all tasks
+                2. mark <number> - Mark a task as completed
+                3. unmark <number> - Unmark a completed task
+                4. delete <number> - Delete a task
+                5. save - Save tasks to file
+                6. commands - Show available commands
+                7. [Task input] - Add a new task
+                """;
+    }
+}

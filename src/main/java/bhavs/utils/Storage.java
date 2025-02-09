@@ -2,8 +2,9 @@ package bhavs.utils;
 
 import bhavs.tasks.Task;
 import bhavs.tasks.TaskList;
-
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Handles loading and saving of tasks to a file.
@@ -11,70 +12,95 @@ import java.io.*;
  */
 public class Storage {
 
-    private String filePath;
-    public TaskList taskList;
+    private static final Logger LOGGER = Logger.getLogger(Storage.class.getName());
 
-    private Parser parser = new Parser();
+    /** Path to the file where tasks are stored. */
+    private final String filePath;
+
+    /** The task list managed by this storage. */
+    private final TaskList taskList;
+
+    /** Lazily initialized parser instance. */
+    private Parser parser;
 
     /**
      * Constructs a {@code Storage} object that manages the saving and loading of tasks.
+     * If the file exists, tasks are loaded into the list.
      *
-     * @param filePath
-     *         The path to the file where tasks are stored.
-     * @param taskList
-     *         The task list that holds tasks in memory.
+     * @param filePath The absolute or relative path to the file where tasks are stored.
      */
-    public Storage(String filePath, TaskList taskList) {
+    public Storage(String filePath) {
         this.filePath = filePath;
-        this.taskList = taskList;
-        this.taskList.storedIn = this;
+        this.taskList = new TaskList();
+        loadTasksFromFile();  // Load existing tasks if available
+    }
 
+    /**
+     * Returns the task list associated with this storage.
+     *
+     * @return The task list containing all loaded tasks.
+     */
+    public TaskList getTaskList() {
+        return taskList;
     }
 
     /**
      * Saves the current list of tasks to the specified file.
      * If the file or its parent directories do not exist, they will be created.
-     * Prints an error message if saving fails.
+     * Logs an error message if saving fails.
      */
     public void saveTasksToFile() {
-        try {
-            File file = new File(filePath);
-            file.getParentFile().mkdirs();
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file));
+        File file = new File(filePath);
+        File parentDir = file.getParentFile();
+        if (parentDir != null && !parentDir.exists()) {
+            parentDir.mkdirs();
+        }
 
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
             for (Task task : taskList.getTasks()) {
                 bw.write(task.toFileFormat());
                 bw.newLine();
             }
-
-            bw.close();
         } catch (IOException e) {
-            System.out.println("Error saving tasks: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error saving tasks", e);
         }
     }
 
     /**
      * Loads tasks from the specified file into the task list.
      * If the file does not exist, a new list is started.
-     * Prints an error message if loading fails.
+     * Logs an error message if loading fails.
      */
     public void loadTasksFromFile() {
         File file = new File(filePath);
         if (!file.exists()) {
-            System.out.println("No previous tasks found. Starting fresh.");
+            LOGGER.info("No previous tasks found. Starting fresh.");
             return;
         }
 
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                Task task = parser.parseTask(line);
+                Task task = getParser().parseTask(line);
                 if (task != null) {
                     taskList.add(task);
                 }
             }
+            LOGGER.info("Tasks successfully loaded from file.");
         } catch (IOException e) {
-            System.out.println("Error loading tasks: " + e.getMessage());
+            LOGGER.log(Level.SEVERE, "Error loading tasks", e);
         }
+    }
+
+    /**
+     * Lazy-loads the parser instance to improve efficiency.
+     *
+     * @return The parser instance.
+     */
+    private Parser getParser() {
+        if (parser == null) {
+            parser = new Parser();
+        }
+        return parser;
     }
 }

@@ -10,14 +10,15 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
+import javafx.stage.Stage;
 
 import bhavs.utils.UI;
+
 /**
- *
- *
  * Controller for the main GUI.
  */
 public class MainWindow extends AnchorPane {
+
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -26,134 +27,64 @@ public class MainWindow extends AnchorPane {
     private TextField userInput;
     @FXML
     private Button sendButton;
-    private UI ui;
-    // ui = new UI(FILE_PATH, taskList);
 
+    private UI ui;
     private Bhavs bhavs;
     private Scene scene;
+    private String userName = null;
 
-    // private String userName;
-
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
-    private Image dukeImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
+    private final Image bhavsImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
 
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
     }
 
-    /** Injects the Duke instance */
-    public void setDuke(Bhavs b) {
-        bhavs = b;
+    /**
+     * Injects the Bhavs chatbot instance into the UI.
+     *
+     * @param bhavs The chatbot instance.
+     */
+    public void setBhavs(Bhavs bhavs) {
+        this.bhavs = bhavs;
     }
 
-    public void setScene(Scene s) {
-        scene = s;
+    /**
+     * Sets the scene for the application window.
+     *
+     * @param scene The JavaFX scene.
+     */
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 
-
-
+    /**
+     * Injects the UI instance.
+     *
+     * @param ui The UI instance.
+     */
     public void setUI(UI ui) {
         this.ui = ui;
     }
 
-
-    public String getNamePrompt() {
-        return "Hello! What is your name?";
-    }
-
-    public String getPersonalWelcomeMessage(String userName) {
-        this.userName = userName;
-        return "Hi " + userName + "! You have a cool name.\nWhat can I add to the list?";
-    }
-
+    /**
+     * Displays a welcome prompt asking for the user's name.
+     */
     public void askUserName() {
-        dialogContainer.getChildren().add(
-                DialogBox.getBhavsDialog(getNamePrompt(), dukeImage) // Asking for name
-        );
+        dialogContainer.getChildren().add(DialogBox.getBhavsDialog("Hello! What is your name?", bhavsImage));
     }
-
-
-
-    /** Greet's User */
-    // public void greetUser() {
-    //     dialogContainer.getChildren().add(
-    //             DialogBox.getBhavsDialog(bhavs.getGreeting(), userImage)
-    //     );
-    //     dialogContainer.getChildren().add(
-    //             DialogBox.getBhavsDialog(getPersonalWelcomeMessage(userInput.getText()), userImage)
-    //     );
-    //
-    //     // nave.guiStart();
-    // }
-
-    public void greetUser() {
-        if (ui != null) {
-            dialogContainer.getChildren().add(
-                    DialogBox.getBhavsDialog(ui.guiGetWelcomeMessage(), userImage)
-            );
-        } else {
-            System.err.println("⚠️ Error: UI is not initialized in MainWindow!");
-        }
-    }
-
-
 
     /**
-     * Creates two dialog boxes, one echoing user input and the other containing Duke's reply and then appends them to
-     * the dialog container. Clears the user input after processing.
+     * Handles user input and chatbot responses.
      */
-    // @FXML
-    // private void handleUserInput() {
-    //     String input = userInput.getText();
-    //     String response = bhavs.getResponse(input);
-    //     Boolean check_end = check_command(input);
-    //     dialogContainer.getChildren().addAll(
-    //             DialogBox.getUserDialog(input, userImage),
-    //             DialogBox.getBhavsDialog(response, dukeImage)
-    //     );
-    //     userInput.clear();
-    //
-    //     if (check_end) {
-    //         closeScreen();
-    //     }
-    // }
-
-    private String userName = null;  // Store user's name
-
-    // @FXML
-    // private void handleUserInput() {
-    //     String input = userInput.getText().trim();
-    //     userInput.clear();
-    //
-    //     if (input.isEmpty()) {
-    //         return;
-    //     }
-    //
-    //     if (userName == null) {
-    //         // If the user has not entered their name yet
-    //         userName = input;
-    //         dialogContainer.getChildren().add(
-    //                 DialogBox.getUserDialog(input, userImage) // Show user input
-    //         );
-    //
-    //         // Show the personal welcome message
-    //         dialogContainer.getChildren().add(
-    //                 DialogBox.getBhavsDialog(ui.getPersonalWelcomeMessage(userName), dukeImage)
-    //         );
-    //         return;
-    //     }
-    //
-    //     // ✅ Process chatbot commands using UI class
-    //     String response = ui.processCommand(input);
-    //     dialogContainer.getChildren().addAll(
-    //             DialogBox.getUserDialog(input, userImage),
-    //             DialogBox.getBhavsDialog(response, dukeImage)
-    //     );
-    // }
-
     @FXML
     private void handleUserInput() {
+        if (ui == null) {
+            System.err.println("⚠️ Error: UI is not initialized in MainWindow!");
+            return;
+        }
+
         String input = userInput.getText().trim();
         userInput.clear();
 
@@ -161,49 +92,55 @@ public class MainWindow extends AnchorPane {
             return;
         }
 
-        if (ui == null) {
-            System.err.println("⚠️ Error: UI is not initialized in MainWindow!");
-            return;
-        }
-
+        // Ask for user's name first
         if (userName == null) {
-            // If the user has not entered their name yet
             userName = input;
-            dialogContainer.getChildren().add(
-                    DialogBox.getUserDialog(input, userImage) // Show user input
-            );
-
-            // Show the personal welcome message
-            dialogContainer.getChildren().add(
-                    DialogBox.getBhavsDialog(ui.getPersonalWelcomeMessage(userName), dukeImage)
-            );
+            dialogContainer.getChildren().add(DialogBox.getUserDialog(input, userImage));
+            dialogContainer.getChildren().add(DialogBox.getBhavsDialog(ui.getPersonalWelcomeMessage(userName), bhavsImage));
             return;
         }
 
-        // ✅ Process chatbot commands using UI class
+        // Process user input
         String response = ui.processCommand(input);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getBhavsDialog(response, dukeImage)
+                DialogBox.getBhavsDialog(response, bhavsImage)
         );
-    }
 
+        // If command modifies tasks, refresh task list display
+        if (input.matches("mark \\d+") || input.matches("unmark \\d+") || input.matches("delete \\d+")) {
+            dialogContainer.getChildren().add(DialogBox.getBhavsDialog(ui.processCommand("list"), bhavsImage));
+        }
 
-    private boolean check_command(String input) {
-        String temp = input.toLowerCase().trim();
-        if(temp == "bye") {
-            return true;
-        } else {
-            return false;
+        // Close chatbot if "bye" is entered
+        if (isExitCommand(input)) {
+            closeScreen();
         }
     }
 
+    /**
+     * Checks if the input is a chatbot exit command.
+     *
+     * @param input User input.
+     * @return True if the user wants to exit, false otherwise.
+     */
+    private boolean isExitCommand(String input) {
+        return input.equalsIgnoreCase("bye");
+    }
+
+    /**
+     * Closes the application after a short delay.
+     */
     private void closeScreen() {
-        Duration delay = Duration.seconds(3);
-        PauseTransition pause = new PauseTransition(delay);
-
-        // ADD CODE
-
+        PauseTransition pause = new PauseTransition(Duration.seconds(3));
+        pause.setOnFinished(event -> {
+            if (scene != null) {
+                Stage stage = (Stage) scene.getWindow();
+                if (stage != null) {
+                    stage.close();
+                }
+            }
+        });
         pause.play();
     }
 }
