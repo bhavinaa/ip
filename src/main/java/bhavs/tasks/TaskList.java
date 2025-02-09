@@ -1,136 +1,136 @@
 package bhavs.tasks;
 
-import bhavs.utils.Storage;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Manages a list of tasks, including adding, deleting, marking, and unmarking tasks.
- * This class interacts with the {@code Storage} class to save task changes.
  */
 public class TaskList {
 
-    private List<Task> taskList = new ArrayList<>();
-    public Storage storedIn;
+    private final List<Task> tasks;
 
     /**
-     * Deletes a task from the list based on user input.
-     * If the list is empty, it informs the user.
-     *
-     * @param scanner
-     *         Scanner object used to get user input.
+     * Constructs an empty task list.
      */
-    public void deleteTask(Scanner scanner) {
-        if (taskList.isEmpty()) {
-            System.out.println("No tasks to delete.");
-            return;
-        }
-
-        int taskIndex = getTaskIndex(scanner, "Which task number to delete?", taskList.size());
-        Task removedTask = taskList.remove(taskIndex);
-        storedIn.saveTasksToFile();
-        System.out.println("Task removed: " + removedTask);
+    public TaskList() {
+        this.tasks = new ArrayList<>();
     }
 
     /**
-     * Marks a task as completed based on user input.
-     * If the list is empty, it informs the user.
+     * Adds a task to the list.
      *
-     * @param scanner
-     *         Scanner object used to get user input.
+     * @param task The task to add.
      */
-    public void markTask(Scanner scanner) {
-        if (taskList.isEmpty()) {
-            System.out.println("Your task list is empty.");
-            return;
-        }
-
-        int taskIndex = getTaskIndex(scanner, "Which task number to mark as done?", taskList.size());
-        taskList.get(taskIndex).markAsComplete();
-        storedIn.saveTasksToFile();
-    }
-
-    /**
-     * Marks a task as incomplete based on user input.
-     * If the list is empty, it informs the user.
-     *
-     * @param scanner
-     *         Scanner object used to get user input.
-     */
-    public void unmarkTask(Scanner scanner) {
-        if (taskList.isEmpty()) {
-            System.out.println("No tasks to unmark.");
-            return;
-        }
-
-        int taskIndex = getTaskIndex(scanner, "Which task number to unmark?", taskList.size());
-        taskList.get(taskIndex).markAsIncomplete();
-        storedIn.saveTasksToFile();
-    }
-
-    /**
-     * Retrieves a valid task index from the user.
-     * If an invalid index is entered, prompts the user to try again.
-     *
-     * @param scanner
-     *         Scanner object used to get user input.
-     * @param prompt
-     *         The prompt message displayed to the user.
-     * @param listSize
-     *         The number of tasks in the list.
-     *
-     * @return The valid task index.
-     */
-    public int getTaskIndex(Scanner scanner, String prompt, int listSize) {
-        System.out.println(prompt);
-        int index = scanner.nextInt() - 1;
-        scanner.nextLine();
-        if (index < 0 || index >= listSize) {
-            System.out.println("Invalid task number. Please try again.");
-            return getTaskIndex(scanner, prompt, listSize);
-        }
-        return index;
-    }
-
     public void add(Task task) {
-        this.taskList.add(task);
+        tasks.add(task);
     }
 
+    /**
+     * Retrieves a task by index.
+     *
+     * @param index The task index.
+     * @return The task at the specified index.
+     * @throws IndexOutOfBoundsException if the index is invalid.
+     */
+    public Task get(int index) {
+        return tasks.get(index);
+    }
+
+    /**
+     * Deletes a task at the specified index.
+     *
+     * @param index The index of the task to delete.
+     * @return The deleted task, or null if the index is invalid.
+     */
+    public Task deleteTask(int index) {
+        if (isValidIndex(index)) {
+            return tasks.remove(index);
+        }
+        return null;
+    }
+
+    /**
+     * Marks a task as completed.
+     *
+     * @param index The index of the task to mark as done.
+     * @return The updated task, or null if the index is invalid.
+     */
+    public Task markTask(int index) {
+        if (isValidIndex(index)) {
+            Task task = tasks.get(index);
+            task.markAsDone();
+            return task;
+        }
+        return null;
+    }
+
+    /**
+     * Unmarks a completed task.
+     *
+     * @param index The index of the task to unmark.
+     * @return The updated task, or null if the index is invalid.
+     */
+    public Task unmarkTask(int index) {
+        if (isValidIndex(index)) {
+            Task task = tasks.get(index);
+            task.markAsNotDone();
+            return task;
+        }
+        return null;
+    }
+
+    /**
+     * Checks if the task list is empty.
+     *
+     * @return True if the list is empty, false otherwise.
+     */
     public boolean isEmpty() {
-        return this.taskList.isEmpty();
+        return tasks.isEmpty();
     }
 
+    /**
+     * Returns the number of tasks in the list.
+     *
+     * @return The size of the task list.
+     */
     public int size() {
-        return this.taskList.size();
+        return tasks.size();
     }
 
-    public Task get(int i) {
-        return this.taskList.get(i);
-    }
-
+    /**
+     * Retrieves all tasks in the list.
+     *
+     * @return The list of tasks.
+     */
     public List<Task> getTasks() {
-        return this.taskList;
+        return new ArrayList<>(tasks); // Return a copy to prevent modification outside
     }
 
-    public void findTasks(Scanner scanner) {
-        String keyword = scanner.nextLine();
-        List<Task> matchingTasks = new ArrayList<>();
-
-        for (Task task : taskList) {
-            if (task.getDescription().toLowerCase().contains(keyword.toLowerCase())) {
-                matchingTasks.add(task);
-            }
+    /**
+     * Returns a formatted list of all tasks.
+     *
+     * @return A string representation of all tasks.
+     */
+    public String getAllTasks() {
+        if (tasks.isEmpty()) {
+            return "Your task list is empty.";
         }
 
-        if (matchingTasks.isEmpty()) {
-            System.out.println("No matching tasks found.");
-        } else {
-            System.out.println("Here are the matching tasks in your list:");
-            for (int i = 0; i < matchingTasks.size(); i++) {
-                System.out.println((i + 1) + ". " + matchingTasks.get(i));
-            }
+        StringBuilder sb = new StringBuilder("Here are your tasks:\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append(i + 1).append(". ").append(tasks.get(i)).append("\n");
         }
+        return sb.toString();
+    }
+
+    /**
+     * Checks if an index is within valid bounds.
+     *
+     * @param index The index to check.
+     * @return True if the index is valid, false otherwise.
+     */
+    private boolean isValidIndex(int index) {
+        return index >= 0 && index < tasks.size();
     }
 }

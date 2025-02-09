@@ -1,0 +1,7 @@
+T | 0 | next
+T | 1 | help
+T | 0 | m
+T | 0 | d
+T | 0 | d
+T | 0 | f
+T | 0 | f

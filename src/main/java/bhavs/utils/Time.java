@@ -89,7 +89,7 @@ public class Time {
      * @return A cleaned input string.
      */
     private String cleanInput(String input) {
-        input = input.trim(); // Remove extra spaces
+        input = input.trim();
         input = input.replace("/", "-");
         return input;
     }

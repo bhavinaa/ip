@@ -53,6 +53,15 @@ public class Task {
         return isDone;
     }
 
+    public void markAsDone() {
+        this.isDone = true;
+    }
+
+    public void markAsNotDone() {
+        this.isDone = false;
+    }
+
+
     /**
      * Converts the task to a file-friendly format for saving.
      *
