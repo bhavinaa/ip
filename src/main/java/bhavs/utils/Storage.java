@@ -1,10 +1,17 @@
 package bhavs.utils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import bhavs.tasks.Task;
 import bhavs.tasks.TaskList;
-import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 
 /**
  * Handles loading and saving of tasks to a file.
@@ -12,15 +19,11 @@ import java.util.logging.Logger;
  */
 public class Storage {
 
+
+    private String filePath;
+    private TaskList taskList;
     private static final Logger LOGGER = Logger.getLogger(Storage.class.getName());
 
-    /** Path to the file where tasks are stored. */
-    private final String filePath;
-
-    /** The task list managed by this storage. */
-    private final TaskList taskList;
-
-    /** Lazily initialized parser instance. */
     private Parser parser;
 
     /**

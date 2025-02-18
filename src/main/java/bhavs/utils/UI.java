@@ -199,7 +199,7 @@ public class UI {
         }
         StringBuilder sb = new StringBuilder("Here are your tasks:\n");
         for (int i = 0; i < taskList.size(); i++) {
-            sb.append((i + 1)).append(". ").append(taskList.get(i)).append("\n");
+            sb.append(i + 1).append(". ").append(taskList.get(i)).append("\n");
         }
         return sb.toString();
     }

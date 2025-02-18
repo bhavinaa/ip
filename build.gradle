@@ -2,7 +2,11 @@ plugins {
     id 'java'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+<<<<<<< HEAD
     id 'org.openjfx.javafxplugin' version '0.0.13' // Use the latest version
+=======
+    id 'checkstyle'
+>>>>>>> 5bbd090475862d66cd73287784e179fee2920ace
 }
 
 repositories {
@@ -63,6 +67,7 @@ run{
     standardInput = System.in
 }
 
+<<<<<<< HEAD
 run {
     enableAssertions = true
 }
@@ -74,4 +79,9 @@ tasks.withType(JavaCompile) {
 javafx {
     version = '17'
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media']
+=======
+checkstyle {
+    toolVersion = '10.2'
+    
+>>>>>>> 5bbd090475862d66cd73287784e179fee2920ace
 }

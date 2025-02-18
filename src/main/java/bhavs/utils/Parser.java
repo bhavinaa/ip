@@ -1,12 +1,15 @@
 package bhavs.utils;
 
+
 import bhavs.tasks.Deadlines;
 import bhavs.tasks.Events;
-import bhavs.tasks.*;
+import bhavs.tasks.Task;
+import bhavs.tasks.ToDos;
+
 
 
 /**
- * Parses task data from a stored file format and converts it into task objects.
+ * * Parses task data from a stored file format and converts it into task objects.
  * Supports parsing of To-Do, Deadline, and Event tasks.
  */
 public class Parser {
@@ -29,7 +32,6 @@ public class Parser {
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
         String description = parts[2];
-
         switch (type) {
             case "T":
                 return new ToDos(description, isDone);
