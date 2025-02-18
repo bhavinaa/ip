@@ -38,3 +38,4 @@ T | 0 | next
 T | 0 | hello
 T | 0 | lst
 T | 0 | bhavina
+T | 0 | clear
