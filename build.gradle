@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
+    id 'org.openjfx.javafxplugin' version '0.0.13' // Use the latest version
 }
 
 repositories {
@@ -60,4 +61,17 @@ sourceSets {
 
 run{
     standardInput = System.in
+}
+
+run {
+    enableAssertions = true
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+javafx {
+    version = '17'
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media']
 }
