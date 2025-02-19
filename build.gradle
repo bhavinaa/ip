@@ -52,6 +52,15 @@ application {
     mainClass.set("bhavs.Launcher")
 }
 
+tasks.withType(JavaExec).configureEach {
+    jvmArgs("-ea")  // Enable assertions
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+
 shadowJar {
     archiveBaseName = "duke"
     archiveClassifier = null
