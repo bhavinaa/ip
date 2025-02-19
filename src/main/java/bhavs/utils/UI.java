@@ -55,4 +55,8 @@ public class UI {
         return "Hi " + userName + "! You have a cool name.\nWhat can I add to the list?";
     }
 
+    public String processCommand(String userCommand) {
+        return this.taskManager.getCommandProcessor().processCommand(userCommand);
+    }
 }
+
