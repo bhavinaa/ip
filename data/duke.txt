@@ -29,8 +29,14 @@ T | 0 | h3lo
 T | 0 | b
 T | 0 | lsit
 T | 0 | lsit
-T | 0 | v
-T | 0 | v
+T | 0 | ls
+T | 0 | clear
 T | 0 | next
-T | 0 | hell
+T | 0 | clear
+T | 0 | hello
+T | 0 | next
+T | 0 | hello
+T | 0 | lst
+T | 0 | bhavina
+T | 0 | clear
 T | 0 | hello
