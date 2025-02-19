@@ -22,6 +22,9 @@ public class UI {
      * @param taskList The task list to manage tasks.
      */
     public UI(Storage storage, TaskList taskList) {
+        assert storage!= null: "Storage instance cannot be null";
+        assert taskList != null: "TaskList instance cannot be null";
+
         this.taskList = taskList;
         this.storage = storage;
     }
@@ -105,6 +108,7 @@ public class UI {
     private String markTask(String argument) {
         try {
             int index = Integer.parseInt(argument) - 1;
+            assert index >= 0 && index < taskList.size() : "Task index out of bounds: " + index;
             taskList.markTask(index);
             storage.saveTasksToFile();
             return "Nice! I've marked this task as done:\n" + taskList.get(index);
@@ -143,6 +147,9 @@ public class UI {
     private String deleteTask(String argument) {
         try {
             int index = Integer.parseInt(argument) - 1;
+            assert !taskList.isEmpty() : "Cannot delete from an empty task list";
+            assert index >= 0 && index < taskList.size() : "Invalid index for deletion: " + index;
+
             Task removed = taskList.get(index);
             taskList.deleteTask(index);
             storage.saveTasksToFile();
@@ -177,15 +184,19 @@ public class UI {
      * @return The created Task object.
      */
     private Task createTask(String input) {
+        assert input != null && !input.trim().isEmpty() : "Task input cannot be null or empty";
+        Task newTask = null;
         String[] parts = input.split(",\\s*");
         if (parts.length == 3) {
-            return new Events(parts[0].trim(), parts[1].trim(), parts[2].trim());
+            newTask = new Events(parts[0].trim(), parts[1].trim(), parts[2].trim());
         } else if (parts.length == 2) {
-            return new Deadlines(parts[0].trim(), parts[1].trim());
+            newTask =  new Deadlines(parts[0].trim(), parts[1].trim());
         } else if (parts.length == 1) {
-            return new ToDos(parts[0].trim());
+            newTask =  new ToDos(parts[0].trim());
         }
-        return null;
+
+        assert newTask != null : "Failed to create task from input: " + input;
+        return newTask;
     }
 
     /**
@@ -194,11 +205,13 @@ public class UI {
      * @return The formatted task list.
      */
     private String displayTasks() {
+        assert taskList != null : "Task list is null while displaying";
         if (taskList.isEmpty()) {
             return "Your task list is empty.";
         }
         StringBuilder sb = new StringBuilder("Here are your tasks:\n");
         for (int i = 0; i < taskList.size(); i++) {
+            assert taskList.get(i) != null : "Null task found in list at index " + i;
             sb.append(i + 1).append(". ").append(taskList.get(i)).append("\n");
         }
         return sb.toString();
