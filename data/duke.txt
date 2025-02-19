@@ -31,3 +31,6 @@ T | 0 | lsit
 T | 0 | lsit
 T | 0 | v
 T | 0 | v
+T | 0 | next
+T | 0 | hell
+T | 0 | hello
