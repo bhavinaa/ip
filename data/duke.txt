@@ -40,3 +40,5 @@ T | 0 | lst
 T | 0 | bhavina
 T | 0 | clear
 T | 0 | hello
+T | 0 | helo
+T | 0 | lskt
