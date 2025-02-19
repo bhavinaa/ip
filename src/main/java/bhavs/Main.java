@@ -34,10 +34,7 @@ public class Main extends Application {
             stage.setMinHeight(220);
             stage.setMinWidth(417);
             stage.setTitle("Bhavs");
-
-            // Initialize Controller
             initializeController(fxmlLoader, scene);
-
             stage.show();
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Error loading FXML", e);
@@ -53,14 +50,11 @@ public class Main extends Application {
     private void initializeController(FXMLLoader fxmlLoader, Scene scene) {
         MainWindow controller = fxmlLoader.getController();
 
-        // Load storage and tasks
         Storage storage = new Storage("./data/duke.txt");
         TaskList taskList = storage.getTaskList();
-
-        // Initialize UI and inject dependencies
         UI ui = new UI(storage, taskList);
         controller.setUI(ui);
         controller.setBhavs(bhavs);
-        controller.askUserName(); // Ask for user's name at startup
+        controller.askUserName();
     }
 }

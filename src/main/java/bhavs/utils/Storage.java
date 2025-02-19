@@ -33,9 +33,12 @@ public class Storage {
      * @param filePath The absolute or relative path to the file where tasks are stored.
      */
     public Storage(String filePath) {
+        assert filePath != null && !filePath.trim().isEmpty() : "File path must not be null or empty";
         this.filePath = filePath;
         this.taskList = new TaskList();
         loadTasksFromFile();  // Load existing tasks if available
+        // assert false : "Assertions are working!";
+
     }
 
     /**
@@ -44,6 +47,7 @@ public class Storage {
      * @return The task list containing all loaded tasks.
      */
     public TaskList getTaskList() {
+        assert taskList != null : "Task list should never be null";
         return taskList;
     }
 
@@ -56,11 +60,14 @@ public class Storage {
         File file = new File(filePath);
         File parentDir = file.getParentFile();
         if (parentDir != null && !parentDir.exists()) {
-            parentDir.mkdirs();
+            boolean created = parentDir.mkdirs();
+            assert created || parentDir.exists() : "Failed to create directory for file: " + filePath;
         }
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
+            assert taskList != null : "Task list cannot be null when saving";
             for (Task task : taskList.getTasks()) {
+                assert task != null : "Task cannot be null when saving";
                 bw.write(task.toFileFormat());
                 bw.newLine();
             }
@@ -84,7 +91,9 @@ public class Storage {
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
+                assert !line.trim().isEmpty() : "Task line should not be empty";
                 Task task = getParser().parseTask(line);
+                assert task != null : "Failed to parse task from line: " + line;
                 if (task != null) {
                     taskList.add(task);
                 }
@@ -104,6 +113,7 @@ public class Storage {
         if (parser == null) {
             parser = new Parser();
         }
+        assert parser != null : "Parser should be initialized before returning";
         return parser;
     }
 }
