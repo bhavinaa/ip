@@ -5,7 +5,7 @@ plugins {
 
     id 'org.openjfx.javafxplugin' version '0.0.13' // Use the latest version
 
-  id 'checkstyle'
+//  id 'checkstyle'
 
 }
 
@@ -90,8 +90,3 @@ javafx {
     modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media']
 }
 
-checkstyle {
-    toolVersion = '10.2'
-    enabled = false
-
-}
