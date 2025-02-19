@@ -37,10 +37,9 @@ public class CommandProcessor {
         String command = parts[0].toLowerCase();
         String argument = (parts.length > 1) ? parts[1] : "";
 
-        switch (command) {  // Corrected switch syntax
+        switch (command) {
             case "list":
                 return this.taskManager.displayTasks();
-        // displayTasks();
             case "mark":
                 return this.taskManager.markTask(argument);
             case "unmark":
