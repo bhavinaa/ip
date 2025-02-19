@@ -81,6 +81,10 @@ public class Time {
             return null;
         }
     }
+    public LocalDateTime getLocalDateTime() {
+        return dateTime;
+    }
+
 
     /**
      * Cleans the input string by trimming spaces and replacing slashes with dashes.

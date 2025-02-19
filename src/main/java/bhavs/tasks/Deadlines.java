@@ -1,6 +1,9 @@
 package bhavs.tasks;
 
 import bhavs.utils.Time;
+import java.util.Optional;
+import java.time.LocalDateTime;
+
 
 public class Deadlines extends Task {
     private Time deadline;
@@ -25,5 +28,9 @@ public class Deadlines extends Task {
     @Override
     public String toFileFormat() {
         return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + deadline.toFileFormat();
+    }
+
+    public Optional<LocalDateTime> getDateTime() {
+        return Optional.ofNullable(deadline.getLocalDateTime());
     }
 }

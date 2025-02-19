@@ -26,6 +26,10 @@ public class TaskManager {
 
     }
 
+    public TaskList getTaskList() {
+        return this.taskList;
+    }
+
     /**
      * Loads tasks from the storage file into memory.
      */

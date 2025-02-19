@@ -2,6 +2,10 @@ package bhavs.tasks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * Manages a list of tasks, including adding, deleting, marking, and unmarking tasks.
@@ -24,6 +28,12 @@ public class TaskList {
      */
     public void add(Task task) {
         tasks.add(task);
+    }
+
+    public void sortTasks() {
+        tasks.sort(Comparator.comparing(
+                task -> task.getDateTime().orElse(LocalDateTime.MAX) // ✅ No date → MAX
+        ));
     }
 
     /**

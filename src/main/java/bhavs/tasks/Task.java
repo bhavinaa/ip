@@ -1,5 +1,8 @@
 package bhavs.tasks;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
+
 /**
  * Represents a task with a description and a completion status.
  * This class serves as a base for different types of tasks.
@@ -62,6 +65,8 @@ public class Task {
     }
 
 
+
+
     /**
      * Converts the task to a file-friendly format for saving.
      *
@@ -79,5 +84,9 @@ public class Task {
     @Override
     public String toString() {
         return "[" + (isDone ? "X" : " ") + "] " + description;
+    }
+
+    public Optional<LocalDateTime> getDateTime() {
+        return Optional.empty();
     }
 }

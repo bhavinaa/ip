@@ -1,6 +1,8 @@
 package bhavs.tasks;
 
 import bhavs.utils.Time;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 /**
  * A type of tasks that includes two start and end times
@@ -32,9 +34,13 @@ public class Events extends Task {
         return "[E]" + super.toString() + " (from: " + start + " to: " + end + ")";
     }
 
-    // ✅ Convert event task to file format (for saving)
+    // Convert event task to file format (for saving)
     @Override
     public String toFileFormat() {
         return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + start.toFileFormat() + " | " + end.toFileFormat();
+    }
+
+    public Optional<LocalDateTime> getDateTime() {
+        return Optional.ofNullable(start.getLocalDateTime());
     }
 }

@@ -1,4 +1,6 @@
 package bhavs.tasks;
+import java.util.Optional;
+import java.time.LocalDateTime;
 
 public class ToDos extends Task {
     public ToDos(String description) {
@@ -18,5 +20,9 @@ public class ToDos extends Task {
     @Override
     public String toFileFormat() {
         return "T | " + super.toFileFormat();
+    }
+
+    public Optional<LocalDateTime> getDateTime() {
+        return Optional.empty();
     }
 }

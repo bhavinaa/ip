@@ -54,6 +54,9 @@ public class CommandProcessor {
                 return "Bye! Hope to see you again soon.";
             case "commands":
                 return this.getAllCommands();
+            case "upcoming":
+                this.taskManager.getTaskList().sortTasks();
+                return this.taskManager.displayTasks();
             default:
                 return this.taskManager.addTask(userCommand);
         }
@@ -69,6 +72,7 @@ public class CommandProcessor {
                 5. save - Save tasks to file
                 6. commands - Show available commands
                 7. [Task input] - Add a new task
+                8. upcoming - To view the tasks by the data, with those without a date at the end of the list
                 """;
     }
 
