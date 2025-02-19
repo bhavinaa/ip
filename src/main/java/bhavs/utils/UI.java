@@ -26,7 +26,9 @@ public class UI {
      *         The task list to manage tasks.
      */
     public UI(Storage storage, TaskList taskList) {
-        this.taskManager = new TaskManager(storage, taskList);
+        assert storage != null: "the storage has not been initalised";
+        assert taskList != null: "the taskList has not been initalised";
+       this.taskManager = new TaskManager(storage, taskList);
     }
 
     public TaskManager getTaskManager() {
