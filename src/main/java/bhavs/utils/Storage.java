@@ -36,7 +36,7 @@ public class Storage {
         assert filePath != null && !filePath.trim().isEmpty() : "File path must not be null or empty";
         this.filePath = filePath;
         this.taskList = new TaskList();
-        loadTasksFromFile();  // Load existing tasks if available
+        loadTasksFromFile();
         // assert false : "Assertions are working!";
 
     }

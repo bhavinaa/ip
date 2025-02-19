@@ -32,44 +32,14 @@ public class CommandProcessor {
      * @param userCommand The command entered by the user.
      * @return The response string.
      */
-    // public String processCommand(String userCommand) {
-    //     assert userCommand != null && !userCommand.trim().isEmpty() : "Command cannot be null or empty";
-    //
-    //     String[] parts = userCommand.split("\\s+", 2);
-    //     String command = parts[0].toLowerCase();
-    //     String argument = (parts.length > 1) ? parts[1] : "";
-    //
-    //     switch (command) {
-    //         case "list":
-    //             return "Listing tasks...";
-    //         case "mark":
-    //             return taskManager.markTask(argument);
-    //         case "unmark":
-    //             return taskManager.unmarkTask(argument);
-    //         case "delete":
-    //             return taskManager.deleteTask(argument);
-    //         case "save":
-    //             storage.saveTasksToFile();
-    //             return "Tasks saved successfully.";
-    //         case "quit":
-    //         case "bye":
-    //             return "Bye! Hope to see you again soon.";
-    //         case "commands":
-    //             return "Available Commands: list, mark <number>, unmark <number>, delete <number>, save, commands.";
-    //         default:
-    //             return "Unknown command. Try 'commands' for help.";
-    //     }
-    // }
-
     public String processCommand(String userCommand) {
         String[] parts = userCommand.split("\\s+", 2);
         String command = parts[0].toLowerCase();
         String argument = (parts.length > 1) ? parts[1] : "";
 
-        switch (command) {  // Corrected switch syntax
+        switch (command) {
             case "list":
                 return this.taskManager.displayTasks();
-        // displayTasks();
             case "mark":
                 return this.taskManager.markTask(argument);
             case "unmark":

@@ -185,7 +185,6 @@ public class Bhavs {
      * Runs the chatbot, initializing the UI and loading tasks from storage.
      */
     public void run() {
-        // ui.getCommandProcessor().
         ui.getTaskManager().loadTasks();
     }
 }
