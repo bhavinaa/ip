@@ -100,7 +100,6 @@ public class TaskManager {
             return "Task number out of range!";
         }
     }
-
     /**
      * Adds a new task to the list.
      *
