@@ -187,18 +187,18 @@ Bye! Hope to see you again soon.
 ---
 
 ## **3. Summary of Commands**
-| **Command**                        | **Description**               |
-|------------------------------------|-------------------------------|
-| `list`                             | View all tasks                |
-| `todo <task>`                      | Add a To-Do task              |
-| `deadline <task>, <YYYY-MM-DD HHmm>` | Add a Deadline task           |
-| `event <event>, <start>, <end>`    | Add an Event task             |
-| `mark <task_number>`               | Mark a task as completed      |
-| `unmark <task_number>`             | Unmark a completed task       |
-| `delete <task_number>`             | Remove a task from the list   |
-| `upcoming`                         | Sorts tasks by the deadline   |
-| `save`                             | Save tasks manually to a file |
-| `bye`                              | Exit the chatbot              |
+| **Command**               | **Description**               |
+|---------------------------|-------------------------------|
+| `list`                    | View all tasks                |
+| `<task>`                  | Add a To-Do task              |
+| `<task>, <YYYY-MM-DD HHmm>` | Add a Deadline task           |
+| `<event>, <start>, <end>` | Add an Event task             |
+| `mark <task_number>`      | Mark a task as completed      |
+| `unmark <task_number>`    | Unmark a completed task       |
+| `delete <task_number>`    | Remove a task from the list   |
+| `upcoming`                | Sorts tasks by the deadline   |
+| `save`                    | Save tasks manually to a file |
+| `bye`                     | Exit the chatbot              |
 
 ---
 
