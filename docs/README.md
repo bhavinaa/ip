@@ -1,5 +1,4 @@
-# Bhavs Task Manager - User Guide
-
+# Bhavs
 
 ![Product Screenshot](docs/Ui.png) 
 
