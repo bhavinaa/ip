@@ -12,12 +12,28 @@ public class Deadlines extends Task {
     public Deadlines(String description, String deadline) {
         super(description);
         this.deadline = new Time(deadline, true);
+
+        // if (this.deadline.getLocalDateTime() == null) {
+        //     throw new IllegalArgumentException(this.deadline.getErrorMessage());
+        // }
     }
 
     // Constructor for loading from file (non-interactive)
     public Deadlines(String description, boolean isDone, String deadline) {
         super(description, isDone);
         this.deadline = new Time(deadline);
+
+        // if (this.deadline.getLocalDateTime() == null) {
+        //     throw new IllegalArgumentException(this.deadline.getErrorMessage());
+        // }
+    }
+
+    public Time getDeadline() {
+        if (this.deadline == null) {
+            return null;
+        }
+
+        return this.deadline;
     }
 
     @Override

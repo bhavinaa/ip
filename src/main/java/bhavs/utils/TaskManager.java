@@ -59,14 +59,15 @@ public class TaskManager {
     public String markTask(String argument) {
         try {
             int index = Integer.parseInt(argument) - 1;
-            assert index >= 0 && index < taskList.size() : "Task index out of bounds: " + index;
+            // assert index >= 0 && index < taskList.size() : "Task index out of bounds: " + index;
             taskList.markTask(index);
             storage.saveTasksToFile();
             return "Nice! I've marked this task as done:\n" + taskList.get(index);
         } catch (NumberFormatException e) {
             return "Invalid task number. Use 'mark <number>'!";
         } catch (IndexOutOfBoundsException e) {
-            return "Task number out of range!";
+            int length = getTaskList().size();
+            return "Task number out of range! There are only " + length + " tasks!";
         }
     }
 
@@ -85,24 +86,27 @@ public class TaskManager {
         } catch (NumberFormatException e) {
             return "Invalid task number. Use 'unmark <number>'!";
         } catch (IndexOutOfBoundsException e) {
-            return "Task number out of range!";
+            int length = getTaskList().size();
+            return "Task number out of range! There are only " + length + " tasks!";
         }
     }
 
     public String deleteTask(String argument) {
         try {
             int index = Integer.parseInt(argument) - 1;
-            assert !taskList.isEmpty() : "Cannot delete from an empty task list";
-            assert index >= 0 && index < taskList.size() : "Invalid index for deletion: " + index;
+            // assert !taskList.isEmpty() : "Cannot delete from an empty task list";
+            // assert index >= 0 && index < taskList.size() : "Invalid index for deletion: " + index;
 
             Task removed = taskList.get(index);
             taskList.deleteTask(index);
             storage.saveTasksToFile();
-            return "Noted. I've removed this task:\n" + removed;
+            int length = getTaskList().size();
+            return "Noted. I've removed this task:\n" + removed + "\n"  + " You have " + length + " tasks left!";
         } catch (NumberFormatException e) {
             return "Invalid task number. Use 'delete <number>'!";
         } catch (IndexOutOfBoundsException e) {
-            return "Task number out of range!";
+            int length = getTaskList().size();
+            return "Task number out of range! There are only " + length + " tasks!";
         }
     }
     /**
@@ -132,14 +136,26 @@ public class TaskManager {
         Task newTask = null;
         String[] parts = input.split(",\\s*");
         if (parts.length == 3) {
-            newTask = new Events(parts[0].trim(), parts[1].trim(), parts[2].trim());
+            Events n;
+            n = new Events(parts[0].trim(), parts[1].trim(), parts[2].trim());
+            System.out.println("n GET END "+ n.getEnd());
+            System.out.println("n GET START " + n.getStart());
+            newTask  = n;
+            if (n.getEnd() == null || n.getStart() == null) {
+                return null;
+            }
         } else if (parts.length == 2) {
-            newTask =  new Deadlines(parts[0].trim(), parts[1].trim());
+            Deadlines n = new Deadlines(parts[0].trim(), parts[1].trim());
+            newTask = n;
+            System.out.println("n GET END "+ n.getDeadline());
+            if(n.getDeadline() == null) {
+                return null;
+            }
         } else if (parts.length == 1) {
             newTask =  new ToDos(parts[0].trim());
         }
 
-        assert newTask != null : "Failed to create task from input: " + input;
+        // assert newTask != null : "Failed to create task from input: " + input;
         return newTask;
     }
 
@@ -150,7 +166,7 @@ public class TaskManager {
      * @return The formatted task list.
      */
     public String displayTasks() {
-        assert taskList != null : "Task list is null while displaying";
+
         if (taskList.isEmpty()) {
             return "Your task list is empty.";
         }

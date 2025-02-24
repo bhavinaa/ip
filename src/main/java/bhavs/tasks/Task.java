@@ -35,7 +35,7 @@ public class Task {
      *         Whether the task is completed (true) or not (false).
      */
 
-    public Task(String description, boolean isDone) { // Constructor for loading tasks
+    public Task(String description, boolean isDone) {
         this.description = description;
         this.isDone = isDone;
     }

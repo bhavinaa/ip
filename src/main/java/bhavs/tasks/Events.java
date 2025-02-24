@@ -19,6 +19,14 @@ public class Events extends Task {
         super(description);
         this.start = new Time(start, true); // Ask user until valid input
         this.end = new Time(end, true);
+
+        // if (this.start.getLocalDateTime() == null) {
+        //     throw new IllegalArgumentException(this.start.getErrorMessage());
+        // }
+        //
+        // if (this.end.getLocalDateTime() == null) {
+        //     throw new IllegalArgumentException(this.end.getErrorMessage());
+        // }
     }
 
     // Constructor for loading from file (non-interactive)
@@ -27,6 +35,22 @@ public class Events extends Task {
         super(description, isDone);
         this.start = new Time(start); // Load directly from file
         this.end = new Time(end);
+
+        // if (this.start.getLocalDateTime() == null) {
+        //     throw new IllegalArgumentException(this.start.getErrorMessage());
+        // }
+        //
+        // if (this.end.getLocalDateTime() == null) {
+        //     throw new IllegalArgumentException(this.end.getErrorMessage());
+        // }
+    }
+
+    public Time getStart(){
+        return this.start;
+    }
+
+    public Time getEnd() {
+        return this.end;
     }
 
     @Override

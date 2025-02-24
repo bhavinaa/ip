@@ -1,3 +1,4 @@
+
 package bhavs;
 
 import javafx.animation.PauseTransition;
@@ -33,7 +34,7 @@ public class MainWindow extends AnchorPane {
     private Scene scene;
     private String userName = null;
 
-    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/priyanka.jpg"));
     private final Image bhavsImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
 
     @FXML

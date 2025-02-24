@@ -1,12 +1,9 @@
 package bhavs.utils;
 
-
 import bhavs.tasks.Deadlines;
 import bhavs.tasks.Events;
 import bhavs.tasks.Task;
 import bhavs.tasks.ToDos;
-
-
 
 /**
  * * Parses task data from a stored file format and converts it into task objects.
@@ -28,7 +25,6 @@ public class Parser {
             System.out.println("Skipping corrupted task entry: " + line);
             return null;
         }
-
         String type = parts[0];
         boolean isDone = parts[1].equals("1");
         String description = parts[2];

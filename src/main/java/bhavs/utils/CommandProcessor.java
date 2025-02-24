@@ -52,6 +52,7 @@ public class CommandProcessor {
             case "quit":
             case "bye":
                 return "Bye! Hope to see you again soon.";
+            case "help":
             case "commands":
                 return this.getAllCommands();
             case "upcoming":
@@ -73,6 +74,7 @@ public class CommandProcessor {
                 6. commands - Show available commands
                 7. [Task input] - Add a new task
                 8. upcoming - To view the tasks by the data, with those without a date at the end of the list
+                9. help - Shows all the available commands
                 """;
     }
 

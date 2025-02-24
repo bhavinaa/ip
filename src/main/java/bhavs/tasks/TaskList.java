@@ -32,9 +32,10 @@ public class TaskList {
 
     public void sortTasks() {
         tasks.sort(Comparator.comparing(
-                task -> task.getDateTime().orElse(LocalDateTime.MAX) // ✅ No date → MAX
+                task -> task.getDateTime().orElse(LocalDateTime.MAX)
         ));
     }
+
 
     /**
      * Retrieves a task by index.

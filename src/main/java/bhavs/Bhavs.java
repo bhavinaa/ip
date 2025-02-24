@@ -4,12 +4,15 @@ import bhavs.tasks.TaskList;
 import bhavs.utils.Storage;
 import bhavs.utils.UI;
 
+import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static javafx.application.Application.launch;
 
 /**
  * The main entry point for the Bhavs chatbot application.
@@ -159,7 +162,6 @@ public class Bhavs {
         }
         return sb.toString();
     }
-
     /**
      * Provides a list of available commands.
      *
@@ -177,14 +179,30 @@ public class Bhavs {
                 6. quit          - Exit the program
                 7. commands      - Show this list of commands
                 8. find          - Search for a task by keyword
+                9. upcoming      - Lists all the upcoming lists, based on the order at which it is due
                 -----------------------------------
                 """;
     }
 
+
+
+
+    public static void main(String[] args) {
+        new Bhavs().run();
+    }
+
+
     /**
      * Runs the chatbot, initializing the UI and loading tasks from storage.
      */
+
     public void run() {
+
         ui.getTaskManager().loadTasks();
+
+        // handleUserCommand();
+
+        //Say goodbye
+        // ui.sayFarewell();
     }
 }

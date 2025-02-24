@@ -1,0 +1,16 @@
+T | 1 | m
+T | 1 | m
+T | 0 | m
+T | 1 | next
+T | 1 | md
+T | 1 | next
+T | 1 | okay
+T | 1 | next
+T | 1 | what
+T | 0 | next
+T | 0 | okay
+D | 0 | fffff | Invalid date
+D | 0 | gggg | 2025-04-03 1500
+T | 0 | next
+T | 0 | what
+T | 0 | next

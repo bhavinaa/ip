@@ -1,0 +1,41 @@
+/* User's chat bubble (Pink) */
+.user-bubble {
+    -fx-background-color: #ff007f; /* Hot Pink */
+    -fx-text-fill: white; /* White Text */
+    -fx-background-radius: 15px;
+    -fx-padding: 10px;
+    -fx-border-color: #ff3b9d;
+}
+
+/* Bhavs' (Bot) chat bubble (Dark Gray) */
+.bot-bubble {
+    -fx-background-color: #222222; /* Dark Gray */
+    -fx-text-fill: #ff6ec7; /* Neon Pink */
+    -fx-background-radius: 15px;
+    -fx-padding: 10px;
+    -fx-border-color: #ff007f;
+}
+
+/* Task Added Message */
+.add-label {
+    -fx-background-color: #ff3b9d; /* Light Pink */
+    -fx-text-fill: black;
+    -fx-background-radius: 15px;
+    -fx-padding: 10px;
+}
+
+/* Task Marked Message */
+.marked-label {
+    -fx-background-color: #ff88c2; /* Soft Pastel Pink */
+    -fx-text-fill: black;
+    -fx-background-radius: 15px;
+    -fx-padding: 10px;
+}
+
+/* Task Deleted Message */
+.delete-label {
+    -fx-background-color: #ff4b4b; /* Bright Red */
+    -fx-text-fill: white;
+    -fx-background-radius: 15px;
+    -fx-padding: 10px;
+}
