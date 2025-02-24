@@ -221,6 +221,9 @@ Bye! Hope to see you again soon.
 ## **6. Installation & Setup**
 1. **Download the JAR file** from the latest release.
 2. Open a terminal and run:
+```
+   java -jar "JAR_FILE_NAME"
+```
 
 
 
