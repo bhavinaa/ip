@@ -1,6 +1,6 @@
 # Bhavs
 
-![Product Screenshot](docs/Ui.png) 
+![Ui.png](Ui.png)
 
 ---
 
@@ -185,29 +185,13 @@ Bye! Hope to see you again soon.
 
 ---
 
-## **3. Summary of Commands**
-| **Command**               | **Description**               |
-|---------------------------|-------------------------------|
-| `list`                    | View all tasks                |
-| `<task>`                  | Add a To-Do task              |
-| `<task>, <YYYY-MM-DD HHmm>` | Add a Deadline task           |
-| `<event>, <start>, <end>` | Add an Event task             |
-| `mark <task_number>`      | Mark a task as completed      |
-| `unmark <task_number>`    | Unmark a completed task       |
-| `delete <task_number>`    | Remove a task from the list   |
-| `upcoming`                | Sorts tasks by the deadline   |
-| `save`                    | Save tasks manually to a file |
-| `bye`                     | Exit the chatbot              |
-
----
-
-## **4. Additional Notes**
+## **3. Additional Notes**
 - Task dates must be in **YYYY-MM-DD HHmm** format.
 - The program **auto-saves tasks**, but you can manually save using the `save` command.
 
 ---
 
-## **5. Troubleshooting**
+## **4. Troubleshooting**
 ### **Issue: Commands are not recognized**
 - Ensure that you **typed the command correctly**.
 - Check if **the file is writable** if you are using `save`.
@@ -217,7 +201,7 @@ Bye! Hope to see you again soon.
 
 ---
 
-## **6. Installation & Setup**
+## **5. Installation & Setup**
 1. **Download the JAR file** from the latest release.
 2. Open a terminal and run:
 ```
