@@ -34,11 +34,11 @@ Adds a simple to-do task.
 
 **Usage:**
 ```
-todo <task_description>
+<task_description>
 ```
 **Example:**
 ```
-todo Buy groceries
+Buy groceries
 ```
 **Expected Output:**
 ```
@@ -53,11 +53,11 @@ Creates a task with a start and end time.
 
 **Usage:**
 ```
-event <event_description>, <YYYY-MM-DD HHmm>, <YYYY-MM-DD HHmm>
+<event_description>, <YYYY-MM-DD HHmm>, <YYYY-MM-DD HHmm>
 ```
 **Example:**
 ```
-event Team meeting, 2025-05-08 1400, 2025-05-08 1600
+Team meeting, 2025-05-08 1400, 2025-05-08 1600
 ```
 **Expected Output:**
 ```
@@ -72,11 +72,11 @@ Creates a task with a specific deadline.
 
 **Usage:**
 ```
-deadline <task_description>, <YYYY-MM-DD HHmm>
+ <task_description>, <YYYY-MM-DD HHmm>
 ```
 **Example:**
 ```
-deadline Project submission, 2025-05-10 1800
+Project submission, 2025-05-10 1800
 ```
 **Expected Output:**
 ```
