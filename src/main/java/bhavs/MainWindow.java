@@ -1,4 +1,3 @@
-
 package bhavs;
 
 import javafx.animation.PauseTransition;
@@ -12,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 import javafx.stage.Stage;
+import javafx.application.Platform;
 
 import bhavs.utils.UI;
 
@@ -34,9 +34,12 @@ public class MainWindow extends AnchorPane {
     private Scene scene;
     private String userName = null;
 
-    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/priyanka.jpg"));
-    private final Image bhavsImage = new Image(this.getClass().getResourceAsStream("/images/DaUser.png"));
+    private final Image userImage = new Image(getClass().getResourceAsStream("/images/priyanka.jpg"));
+    private final Image bhavsImage = new Image(getClass().getResourceAsStream("/images/DaUser.png"));
 
+    /**
+     * Initializes the UI, ensuring smooth scrolling.
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
@@ -73,7 +76,34 @@ public class MainWindow extends AnchorPane {
      * Displays a welcome prompt asking for the user's name.
      */
     public void askUserName() {
-        dialogContainer.getChildren().add(DialogBox.getBhavsDialog("Hello! What is your name?", bhavsImage));
+        dialogContainer.getChildren().add(DialogBox.getBhavsDialog(getUserNamePrompt(), bhavsImage));
+    }
+
+    /**
+     * Returns a prompt asking for the user's name.
+     */
+    private String getUserNamePrompt() {
+        return "Hello! Before we get started, what should I call you?";
+    }
+
+    /**
+     * Greets the user when the application starts.
+     */
+    public void greetUser() {
+        dialogContainer.getChildren().add(DialogBox.getBhavsDialog(getGreeting(), bhavsImage));
+    }
+
+    /**
+     * Provides the chatbot's greeting message.
+     *
+     * @return The greeting message.
+     */
+    public String getGreeting() {
+        return """
+                Welcome! I'm Bhavs, your AI assistant for managing tasks.
+                Type 'list' to see your tasks, 'commands' for available actions,
+                or 'bye' to exit.
+                """;
     }
 
     /**
@@ -82,7 +112,7 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         if (ui == null) {
-            System.err.println("⚠️ Error: UI is not initialized in MainWindow!");
+            System.err.println("Error: UI is not initialized in MainWindow!");
             return;
         }
 
@@ -108,15 +138,25 @@ public class MainWindow extends AnchorPane {
                 DialogBox.getBhavsDialog(response, bhavsImage)
         );
 
-        // If command modifies tasks, refresh task list display
-        if (input.matches("mark \\d+") || input.matches("unmark \\d+") || input.matches("delete \\d+")) {
+        // Refresh task list if a modification command is detected
+        if (isTaskModificationCommand(input)) {
             dialogContainer.getChildren().add(DialogBox.getBhavsDialog(ui.processCommand("list"), bhavsImage));
         }
 
         // Close chatbot if "bye" is entered
         if (isExitCommand(input)) {
-            closeScreen();
+            closeApplication();
         }
+    }
+
+    /**
+     * Checks if the input is a task modification command.
+     *
+     * @param input User input.
+     * @return True if the command modifies tasks, false otherwise.
+     */
+    private boolean isTaskModificationCommand(String input) {
+        return input.matches("mark \\d+") || input.matches("unmark \\d+") || input.matches("delete \\d+");
     }
 
     /**
@@ -132,16 +172,9 @@ public class MainWindow extends AnchorPane {
     /**
      * Closes the application after a short delay.
      */
-    private void closeScreen() {
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished(event -> {
-            if (scene != null) {
-                Stage stage = (Stage) scene.getWindow();
-                if (stage != null) {
-                    stage.close();
-                }
-            }
-        });
+    private void closeApplication() {
+        PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+        pause.setOnFinished(event -> Platform.exit());
         pause.play();
     }
 }

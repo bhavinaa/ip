@@ -1,44 +1,32 @@
 package bhavs.utils;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import bhavs.tasks.Task;
-import bhavs.tasks.TaskList;
+import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
+import bhavs.tasks.Task;
+import bhavs.tasks.TaskList;
 
 /**
  * Handles loading and saving of tasks to a file.
  * Ensures that tasks persist between program runs.
  */
 public class Storage {
-
-
     private String filePath;
     private TaskList taskList;
     private static final Logger LOGGER = Logger.getLogger(Storage.class.getName());
-
     private Parser parser;
 
     /**
-     * Constructs a {@code Storage} object that manages the saving and loading of tasks.
+     * Constructs a {@code Storage} object that manages saving and loading tasks.
      * If the file exists, tasks are loaded into the list.
      *
-     * @param filePath The absolute or relative path to the file where tasks are stored.
+     * @param filePath The path to the file where tasks are stored.
      */
     public Storage(String filePath) {
         assert filePath != null && !filePath.trim().isEmpty() : "File path must not be null or empty";
         this.filePath = filePath;
         this.taskList = new TaskList();
         loadTasksFromFile();
-        // assert false : "Assertions are working!";
-
     }
 
     /**
@@ -54,14 +42,14 @@ public class Storage {
     /**
      * Saves the current list of tasks to the specified file.
      * If the file or its parent directories do not exist, they will be created.
-     * Logs an error message if saving fails.
      */
     public void saveTasksToFile() {
         File file = new File(filePath);
         File parentDir = file.getParentFile();
-        if (parentDir != null && !parentDir.exists()) {
-            boolean created = parentDir.mkdirs();
-            assert created || parentDir.exists() : "Failed to create directory for file: " + filePath;
+
+        if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
+            LOGGER.severe("Failed to create directory for file: " + filePath);
+            return;
         }
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(file))) {
@@ -71,15 +59,15 @@ public class Storage {
                 bw.write(task.toFileFormat());
                 bw.newLine();
             }
+            LOGGER.info("✅ Tasks successfully saved to file: " + filePath);
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error saving tasks", e);
+            LOGGER.log(Level.SEVERE, " Error saving tasks!", e);
         }
     }
 
     /**
      * Loads tasks from the specified file into the task list.
      * If the file does not exist, a new list is started.
-     * Logs an error message if loading fails.
      */
     public void loadTasksFromFile() {
         File file = new File(filePath);
@@ -93,14 +81,40 @@ public class Storage {
             while ((line = br.readLine()) != null) {
                 assert !line.trim().isEmpty() : "Task line should not be empty";
                 Task task = getParser().parseTask(line);
-                assert task != null : "Failed to parse task from line: " + line;
                 if (task != null) {
                     taskList.add(task);
                 }
             }
             LOGGER.info("Tasks successfully loaded from file.");
         } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Error loading tasks", e);
+            LOGGER.log(Level.SEVERE, "Error loading tasks!", e);
+        }
+    }
+
+    /**
+     * Creates a new task list and saves it under a different file.
+     *
+     * @param newFilePath The new file path for storing tasks.
+     * @return Confirmation message.
+     */
+    public String createNewTaskList(String newFilePath) {
+        assert newFilePath != null && !newFilePath.trim().isEmpty() : "New file path must not be null or empty";
+
+        this.filePath = newFilePath;
+        this.taskList = new TaskList();
+
+        File newFile = new File(newFilePath);
+        try {
+            if (newFile.createNewFile()) {
+                LOGGER.info("New task list created at: " + newFilePath);
+            } else {
+                LOGGER.warning("Task list file already exists. Overwriting...");
+            }
+            saveTasksToFile();
+            return "New task list created successfully at: " + newFilePath;
+        } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Error creating new task list!", e);
+            return " Failed to create a new task list!";
         }
     }
 
@@ -113,7 +127,7 @@ public class Storage {
         if (parser == null) {
             parser = new Parser();
         }
-        assert parser != null : "Parser should be initialized before returning";
         return parser;
     }
 }
+

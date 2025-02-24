@@ -54,7 +54,7 @@ public class UI {
      */
     public String getPersonalWelcomeMessage(String userName) {
         this.userName = userName;
-        return "Hi " + userName + "! You have a cool name.\nWhat can I add to the list?";
+        return "Hi " + userName + "! You have a cool name.\n What can I add to the list?";
     }
 
     public String processCommand(String userCommand) {

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -21,6 +20,8 @@ import javafx.scene.layout.HBox;
  * and a label containing text from the speaker.
  */
 public class DialogBox extends HBox {
+    private static final Logger LOGGER = Logger.getLogger(DialogBox.class.getName());
+
     @FXML
     private Label dialog;
     @FXML
@@ -33,7 +34,7 @@ public class DialogBox extends HBox {
             fxmlLoader.setRoot(this);
             fxmlLoader.load();
         } catch (IOException e) {
-            Logger.getLogger(DialogBox.class.getName()).log(Level.SEVERE, "Error loading DialogBox.fxml", e);
+            LOGGER.log(Level.SEVERE, "Error loading DialogBox.fxml", e);
         }
 
         dialog.setText(text);
@@ -44,7 +45,7 @@ public class DialogBox extends HBox {
      * Flips the dialog box such that the ImageView is on the left and text on the right.
      */
     private void flip() {
-        ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
+        ObservableList<Node> tmp = FXCollections.observableArrayList(getChildren());
         Collections.reverse(tmp);
         getChildren().setAll(tmp);
         setAlignment(Pos.TOP_LEFT);
@@ -68,7 +69,7 @@ public class DialogBox extends HBox {
      * @return A new instance of DialogBox representing the Bhavs dialog.
      */
     public static DialogBox getBhavsDialog(String text, Image img) {
-        var db = new DialogBox(text, img);
+        DialogBox db = new DialogBox(text, img);
         db.flip();
         return db;
     }
@@ -81,9 +82,9 @@ public class DialogBox extends HBox {
      * @return A new instance of DialogBox representing the Bhavs dialog with styling.
      */
     public static DialogBox getBhavsDialog(String text, Image img, CommandType command) {
-        var db = new DialogBox(text, img);
+        DialogBox db = new DialogBox(text, img);
         db.flip();
-        db.changeDialogStyle(command);
+        db.applyDialogStyle(command);
         return db;
     }
 
@@ -98,12 +99,11 @@ public class DialogBox extends HBox {
      * Changes the style of the dialog box based on the command type.
      * @param command The command type to determine the style.
      */
-    private void changeDialogStyle(CommandType command) {
+    private void applyDialogStyle(CommandType command) {
         switch (command) {
             case TASK -> dialog.getStyleClass().add("add-label");
             case MARK -> dialog.getStyleClass().add("marked-label");
             case DELETE -> dialog.getStyleClass().add("delete-label");
-            default -> dialog.getStyleClass().add("");
         }
     }
 }

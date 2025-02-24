@@ -51,6 +51,7 @@ public class CommandProcessor {
                 return "Tasks saved successfully.";
             case "quit":
             case "bye":
+
                 return "Bye! Hope to see you again soon.";
             case "help":
             case "commands":
