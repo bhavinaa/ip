@@ -3,4 +3,4 @@ T | 0 | cs2109s ps3
 T | 1 | cs2106 lab2
 D | 1 | cs2103t | 2025-02-21 1800
 E | 0 | SOC pitch | 2025-02-10 1400 | 2025-01-15 1500
-T | 0 | cs2103t jar submission
+T | 1 | cs2103t jar submission
