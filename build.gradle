@@ -3,14 +3,10 @@ plugins {
     id 'application'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 
-    id 'org.openjfx.javafxplugin' version '0.0.13' // Use the latest version
-
-//  id 'checkstyle'
-
 }
 
 repositories {
-    mavenCentral()     
+    mavenCentral()
 }
 
 dependencies {
@@ -33,7 +29,6 @@ dependencies {
     implementation group: 'org.openjfx', name: 'javafx-graphics', version: javaFxVersion, classifier: 'linux'
 }
 
-
 test {
     useJUnitPlatform()
 
@@ -52,6 +47,22 @@ application {
     mainClass.set("bhavs.Launcher")
 }
 
+shadowJar {
+    archiveBaseName = "bhavs"
+    archiveVersion = null
+    archiveClassifier = null
+}
+
+run{
+    standardInput = System.in
+}
+
+sourceSets {
+    test {
+        java.srcDirs = ['test']
+    }
+}
+
 tasks.withType(JavaExec).configureEach {
     jvmArgs("-ea")  // Enable assertions
 }
@@ -60,33 +71,4 @@ tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
 
-
-shadowJar {
-    archiveBaseName = "duke"
-    archiveClassifier = null
-    archiveFileName = 'bhavs.jar'
-}
-sourceSets {
-    test {
-        java.srcDirs = ['test']
-    }
-}
-
-run{
-    standardInput = System.in
-}
-
-
-run {
-    enableAssertions = true
-}
-
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-
-javafx {
-    version = '17'
-    modules = ['javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.media']
-}
 
